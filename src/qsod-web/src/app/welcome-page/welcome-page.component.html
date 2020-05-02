@@ -1,12 +1,33 @@
 <body class="welcome-body">
   <h1 class="main-title">Quiz System of Doom</h1>
 
-
-  add login form
   <div class="login-form">
-    <mat-form-field>
+    <mat-form-field class="login-field">
       <mat-label>E-mail</mat-label>
-      <button>example</button>
+      <input matInput>
     </mat-form-field>
+    <br>
+    <mat-form-field class="login-field">
+      <mat-label>Password</mat-label>
+      <input matInput type="password">
+    </mat-form-field>
+
+    <mat-grid-list id="welcome-button-grid" class="button-grid" cols="2" rows="1" rowHeight="4rem">
+      <mat-grid-tile>
+        <button class="button-grid-button" mat-stroked-button color="primary" (click)="showMessage('Sign Up')">Sign Up</button>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <button class="button-grid-button" mat-raised-button color="primary" (click)="showMessage('Login')">Login</button>
+      </mat-grid-tile>
+    </mat-grid-list> 
   </div>
+      
+  <mat-list id="welcome-quotes-list" fxLayout="row">
+    <mat-card class="welcome-quotes-list-item" *ngFor="let quote of QUOTES">
+      <img mat-card-image src="assets/placeholder.jpg">
+      <mat-card-content>
+        {{ quote }}
+      </mat-card-content> 
+    </mat-card>
+  </mat-list>
 </body>

@@ -4,6 +4,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon'; 
 import { MatFormFieldModule } from '@angular/material/form-field'; 
+import { MatInputModule } from '@angular/material/input';
+import { MatGridListModule } from '@angular/material/grid-list'; 
+import { MatCardModule } from '@angular/material/card'; 
+import { MatSnackBarModule } from '@angular/material/snack-bar'; 
+import { MatListModule } from '@angular/material/list'; 
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -24,6 +30,12 @@ import { RouterModule } from '@angular/router';
     MatButtonModule,
     MatIconModule,
     MatFormFieldModule,
+    MatInputModule,
+    MatGridListModule,
+    MatCardModule,
+    MatSnackBarModule,
+    MatListModule,
+    FlexLayoutModule,
     RouterModule.forRoot([
       { path: '', component: WelcomePageComponent },
     ]),
