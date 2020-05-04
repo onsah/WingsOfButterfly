@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -6,7 +6,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './welcome-page.component.html',
   styleUrls: ['./welcome-page.component.css']
 })
-export class WelcomePageComponent {
+export class WelcomePageComponent implements OnInit {
+
   readonly QUOTES = [
     'böyle uygulama görmedim!',
     'Buraya gelmeden önce programlama bilmiyordum, şimdi Apple\'da kod yazıyorum',
@@ -17,9 +18,18 @@ export class WelcomePageComponent {
     'quote7',
   ];
   
-  constructor(private snackBar: MatSnackBar) { }
+  constructor(
+    private snackBar: MatSnackBar,
+  ) { }
+
+  ngOnInit(): void {
+  }
 
   showMessage(message: string): void {
     this.snackBar.open(message, 'close', { duration: 2000 });
+  }
+
+  onLogin() {
+    
   }
 }

@@ -14,13 +14,20 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { WelcomePageComponent } from './welcome-page/welcome-page.component';
-import { RouterModule } from '@angular/router';
+import { WelcomePageComponent } from './welcome/welcome-page/welcome-page.component';
+import { MainPageComponent } from './main/main-page/main-page.component';
+import { WelcomeToolbarComponent } from './welcome/welcome-toolbar/welcome-toolbar.component';
+import { MainToolbarComponent } from './main/main-toolbar/main-toolbar.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     WelcomePageComponent,
+    MainPageComponent,
+    WelcomeToolbarComponent,
+    MainToolbarComponent,
+    ToolbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,9 +43,6 @@ import { RouterModule } from '@angular/router';
     MatSnackBarModule,
     MatListModule,
     FlexLayoutModule,
-    RouterModule.forRoot([
-      { path: '', component: WelcomePageComponent },
-    ]),
   ],
   providers: [],
   bootstrap: [AppComponent]

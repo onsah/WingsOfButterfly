@@ -3,21 +3,21 @@
 
   <div class="login-form">
     <mat-form-field class="login-field">
-      <mat-label>E-mail</mat-label>
+      <mat-label #emailLabel>E-mail</mat-label>
       <input matInput>
     </mat-form-field>
     <br>
     <mat-form-field class="login-field">
-      <mat-label>Password</mat-label>
+      <mat-label #passwordLabel>Password</mat-label>
       <input matInput type="password">
     </mat-form-field>
 
     <mat-grid-list id="welcome-button-grid" class="button-grid" cols="2" rows="1" rowHeight="4rem">
       <mat-grid-tile>
-        <button class="button-grid-button" mat-stroked-button color="primary" (click)="showMessage('Sign Up')">Sign Up</button>
+        <a class="button-grid-button" mat-stroked-button color="primary" (click)="showMessage('Sign Up')">Sign Up</a>
       </mat-grid-tile>
       <mat-grid-tile>
-        <button class="button-grid-button" mat-raised-button color="primary" (click)="showMessage('Login')">Login</button>
+        <a class="button-grid-button" mat-raised-button color="primary" [routerLink]="['/main']">Login</a>
       </mat-grid-tile>
     </mat-grid-list> 
   </div>
