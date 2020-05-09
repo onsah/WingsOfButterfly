@@ -3,7 +3,7 @@
   
     <span class="placeholder"> </span>
 
-    <a mat-button [style.visibility]="isLoggedIn() ? 'visible' : 'hidden'">
+    <a mat-button *ngIf="isLoggedIn()">
       Profile
     </a>
   

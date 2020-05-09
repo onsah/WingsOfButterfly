@@ -1,15 +1,15 @@
 <body class="welcome-body">
   <h1 class="main-title">Quiz System of Doom</h1>
 
-  <div class="login-form">
+  <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
     <mat-form-field class="login-field">
       <mat-label #emailLabel>E-mail</mat-label>
-      <input matInput>
+      <input #email matInput formControlName="email">
     </mat-form-field>
     <br>
     <mat-form-field class="login-field">
       <mat-label #passwordLabel>Password</mat-label>
-      <input matInput type="password">
+      <input matInput type="password" formControlName="password">
     </mat-form-field>
 
     <mat-grid-list id="welcome-button-grid" class="button-grid" cols="2" rows="1" rowHeight="4rem">
@@ -17,10 +17,10 @@
         <a class="button-grid-button" mat-stroked-button color="primary" (click)="showMessage('Sign Up')">Sign Up</a>
       </mat-grid-tile>
       <mat-grid-tile>
-        <a class="button-grid-button" mat-raised-button color="primary" [routerLink]="['/main']">Login</a>
+        <button class="button-grid-button" mat-raised-button color="primary" type="submit">Login</button>
       </mat-grid-tile>
     </mat-grid-list> 
-  </div>
+  </form>
       
   <mat-list id="welcome-quotes-list" fxLayout="row">
     <mat-card class="welcome-quotes-list-item" *ngFor="let quote of QUOTES">

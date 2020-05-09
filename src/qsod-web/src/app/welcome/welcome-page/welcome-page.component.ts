@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
+import { AccountService } from 'src/app/services/account.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'welcome-page',
@@ -7,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./welcome-page.component.css']
 })
 export class WelcomePageComponent implements OnInit {
+  loginForm: FormGroup;
 
   readonly QUOTES = [
     'böyle uygulama görmedim!',
@@ -20,16 +25,29 @@ export class WelcomePageComponent implements OnInit {
   
   constructor(
     private snackBar: MatSnackBar,
-  ) { }
+    private accService: AccountService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+  ) { 
+    this.loginForm = formBuilder.group({
+      email: '',
+      password: '',
+    });
+  }
 
   ngOnInit(): void {
+    // TODO: navigate to main page if logged in
   }
 
   showMessage(message: string): void {
     this.snackBar.open(message, 'close', { duration: 2000 });
   }
 
-  onLogin() {
-    
+  onSubmit({ email, password }: { email: string, password: string }) {
+    let user = this.accService.login(email, password);
+
+    if (user !== null) {
+      this.router.navigate(['main']);
+    }
   }
 }
