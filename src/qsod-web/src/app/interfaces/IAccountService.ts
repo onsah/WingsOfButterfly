@@ -1,7 +1,10 @@
 import { User, JobSituation, ICV } from '../models/user'; 
+import { Either } from '../utility/Either';
+
+export type LoginResult = Either<User, LoginError>;
 
 export interface IAccountService {
-    login(email: string, password: string): User;
+    login(email: string, password: string): LoginResult;
     logout(): void;
 
     isLoggedIn(): boolean;
@@ -35,4 +38,11 @@ export interface IAccountService {
     ): boolean;
 
     updateProfile(email: string, password: string, newProfile: User): boolean;
+}
+
+export enum LoginError {
+    EmailOrPasswordEmpty,
+    EmailAlreadyTaken,
+    UsernameNotValid,
+    PasswordNotValid,
 }

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { User, JobSituation, ICV } from '../models/user';
-import { IAccountService } from '../interfaces/IAccountService';
-import { stringToKeyValue } from '@angular/flex-layout/extended/typings/style/style-transforms';
+import { IAccountService, LoginResult, LoginError } from '../interfaces/IAccountService';
 
 @Injectable({
   providedIn: 'root'
@@ -16,15 +15,15 @@ export class AccountService implements IAccountService {
     this.user = null;
   }
 
-  public login(email: string, password: string): User {
+  public login(email: string, password: string): LoginResult {
     if (email === '' || password === '') {
       console.warn('email or password is empty');
-      return null;
+      return { tag: "error", error: LoginError.EmailOrPasswordEmpty };
     }
     // TODO implement
     this.user = new User(email, password);
 
-    return this.user;
+    return { tag:"value", value: this.user };
   }
 
   isLoggedIn = (): boolean => this.user !== null;
