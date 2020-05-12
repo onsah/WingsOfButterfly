@@ -17,8 +17,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { WelcomePageComponent } from './welcome/welcome-page/welcome-page.component';
 import { MainPageComponent } from './main/main-page/main-page.component';
-import { WelcomeToolbarComponent } from './welcome/welcome-toolbar/welcome-toolbar.component';
-import { MainToolbarComponent } from './main/main-toolbar/main-toolbar.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 
 @NgModule({
@@ -26,8 +24,6 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     AppComponent,
     WelcomePageComponent,
     MainPageComponent,
-    WelcomeToolbarComponent,
-    MainToolbarComponent,
     ToolbarComponent,
   ],
   imports: [

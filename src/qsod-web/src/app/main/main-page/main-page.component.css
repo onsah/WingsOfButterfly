@@ -1,0 +1,23 @@
+.quiz-list {
+    margin: 2rem auto;
+    width: 40%;
+    height: 100%;
+}
+
+.quiz-title {
+    font-size: 1.6rem;
+    vertical-align: middle;
+}
+
+.quiz-list-item {
+    width: 40%;
+    margin: 2rem;
+}
+
+.tags {
+    margin-left: 1.5rem;
+}
+
+.placeholder {
+    flex: 1 1 auto;
+}

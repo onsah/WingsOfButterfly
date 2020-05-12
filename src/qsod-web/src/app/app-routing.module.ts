@@ -13,7 +13,9 @@ const routes: Routes = [
   { 
     path: 'main',
     component: MainPageComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [
+      // TODO: uncomment AuthGuardService
+    ],
   },
 ];
 

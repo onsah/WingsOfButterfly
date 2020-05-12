@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { User, JobSituation, ICV } from '../models/user';
+import { User, JobSituation, ICV, UserType } from '../models/user';
 import { IAccountService, LoginResult, LoginError } from '../interfaces/IAccountService';
 
 @Injectable({
@@ -28,7 +28,7 @@ export class AccountService implements IAccountService {
 
   isLoggedIn = (): boolean => this.user !== null;
 
-  getProfile = (): User => this.user;
+  getUserType = (): UserType => this.user?.type;
 
   logout(): void {
     throw new Error("Method not implemented.");
@@ -41,7 +41,7 @@ export class AccountService implements IAccountService {
     JobSituation: JobSituation, 
     contactInfo: string, 
     description?: string, 
-    cv?: ICV, 
+    cv?: ICV, // büyük ihtimal uçacak
     avatar?: Uint8Array
   ): boolean {
     throw new Error("Method not implemented.");

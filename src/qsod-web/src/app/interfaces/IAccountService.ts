@@ -9,8 +9,6 @@ export interface IAccountService {
 
     isLoggedIn(): boolean;
 
-    getProfile(): User;
-
     registerDeveloper(
         email: string,
         password: string, 
