@@ -12,12 +12,14 @@ import { MatListModule } from '@angular/material/list';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatTabsModule, MatTab } from '@angular/material/tabs'; 
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { WelcomePageComponent } from './welcome/welcome-page/welcome-page.component';
 import { MainPageComponent } from './main/main-page/main-page.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { QuizPageComponent } from './quiz/quiz-page/quiz-page.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     WelcomePageComponent,
     MainPageComponent,
     ToolbarComponent,
+    QuizPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +44,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     MatListModule,
     FlexLayoutModule,
     ReactiveFormsModule,
+    MatTabsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

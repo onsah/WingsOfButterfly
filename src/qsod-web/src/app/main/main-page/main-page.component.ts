@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Quiz } from 'src/app/models/quiz';
+import { Quiz, QuizType } from 'src/app/models/quiz';
+import { Difficulty } from 'src/app/models/types';
 
 @Component({
   selector: 'app-main-page',
@@ -10,21 +11,9 @@ export class MainPageComponent implements OnInit {
   SelectedTags: string[] = [];
   
   Quizzes: Quiz[] = [
-    {
-      title: "Database",
-      tags: [ "SQL", "Algorithms" ],
-      questions: [ ],
-    },
-    {
-      title: "Database",
-      tags: [ "SQL", "Algorithms" ],
-      questions: [ ],
-    },
-    {
-      title: "Database",
-      tags: [ "SQL", "Algorithms" ],
-      questions: [ ],
-    }
+    Quiz.getDefault(),
+    Quiz.getDefault(),
+    Quiz.getDefault(),
   ];
 
   constructor() { }
