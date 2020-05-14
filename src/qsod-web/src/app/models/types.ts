@@ -9,3 +9,8 @@ export enum Difficulty {
 export type Duration = number;
 
 export type Tag = string;
+
+/** 
+ * Email of the developer
+ */
+ export type DevID = string;
