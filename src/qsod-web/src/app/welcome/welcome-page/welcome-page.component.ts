@@ -24,13 +24,13 @@ export class WelcomePageComponent implements OnInit {
     'quote6',
     'quote7',
   ];
-  
+
   constructor(
     private snackBar: MatSnackBar,
     private accService: AccountService,
     private formBuilder: FormBuilder,
     private router: Router,
-  ) { 
+  ) {
     this.loginForm = formBuilder.group({
       email: '',
       password: '',
@@ -46,30 +46,34 @@ export class WelcomePageComponent implements OnInit {
   }
 
   onSubmit({ email, password }: { email: string, password: string }) {
-    let result = this.accService.login(email, password);
+    const result = this.accService.login(email, password);
 
     switch (result.tag) {
-      case "value": 
+      case 'value':
         this.router.navigate(['main']);
         break;
-      case "error": 
+      case 'error':
         switch (result.error) {
           case LoginError.EmailOrPasswordEmpty:
-              this.showMessage("Email or password is empty");
-            break;
+              this.showMessage('Email or password is empty');
+              break;
           case LoginError.EmailAlreadyTaken:
-              this.showMessage("This email is already used for another account");
-            break;
+              this.showMessage('This email is already used for another account');
+              break;
           case LoginError.UsernameNotValid:
-              this.showMessage("The username is not valid");
-            break;
+              this.showMessage('The username is not valid');
+              break;
           case LoginError.PasswordNotValid:
-              this.showMessage("The password is not valid");
-            break;
+              this.showMessage('The password is not valid');
+              break;
           default:
-              this.showMessage("Unkown login error occured!");
-            break;
+              this.showMessage('Unkown login error occured!');
+              break;
         }
     }
+  }
+
+  onSignUp(){
+    this.router.navigate(['registration']);
   }
 }

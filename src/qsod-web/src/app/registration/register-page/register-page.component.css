@@ -1,0 +1,40 @@
+.welcome-body {
+    text-align: center;
+}
+
+.main-title {
+    font-size: 2.4rem;
+    margin: 20px auto;
+    width: 20%;
+    min-width: 20rem;
+}
+
+.login-form {
+    margin: 0 auto;
+    margin-bottom: 4rem;
+    width: 20%;
+    min-width: 20rem;
+}
+
+.login-field {
+    margin: 0 auto;
+    width: 90%;
+}
+
+.button-grid-button {
+    width: 95%;
+}
+
+#welcome-quotes-list {
+    margin: 0 auto;
+    max-width: 80%;
+    overflow: auto;
+}
+
+.welcome-quotes-list-item {
+   margin: 1rem auto;
+   margin-left: 2rem;
+   margin-right: 2rem;
+   flex: 1 1 0px;
+   min-width: 12%;
+}
