@@ -23,6 +23,12 @@ export class Quiz {
             tags: [ "SQL", "Algorithms" ],
         };
     }
+
+    static withTags(tags: Tag[]): Quiz {
+        let quiz = this.getDefault();
+        quiz.tags = tags;
+        return quiz;
+    }
 }
 
 export enum QuizType {

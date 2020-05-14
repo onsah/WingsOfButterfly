@@ -1,17 +1,23 @@
 import { Quiz, QuizID } from '../models/quiz';
 import { Question } from '../models/question';
-import { QuestionID } from '../models/types';
+import { QuestionID, DevID, Tag } from '../models/types';
+import { Observable } from 'rxjs';
 
 /**
  * The all backend except login
  */
 export interface IQuizService {
-    getQuiz(quizID: QuizID): Quiz;
+    readonly quizzes: Observable<Quiz[]>;
 
-    getQuestion(questionID: QuestionID): Question;
-    getQuestions(quizID): Question[];
-
-    getCompletedQuizzes(): Quiz[];
-    
-    getNoOfAttempts(quizID: QuizID): number;
+    receiveAllQuizzes(): void;
+    /**
+     * Receives the quizzes of the developer took
+     * @param devID ID of the developer
+     */
+    receiveQuizzesOfDev(devID: DevID): void;
+    /**
+     * 
+     * @param tags tags wanted in the quiz
+     */
+    receiveQuizzesByTag(tags: Tag[]): void;
 }

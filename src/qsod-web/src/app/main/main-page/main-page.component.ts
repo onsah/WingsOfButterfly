@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Quiz, QuizType } from 'src/app/models/quiz';
 import { Difficulty } from 'src/app/models/types';
+import { Observable } from 'rxjs';
+import { QuizService } from 'src/app/services/quiz.service';
 
 @Component({
   selector: 'app-main-page',
@@ -8,17 +10,15 @@ import { Difficulty } from 'src/app/models/types';
   styleUrls: ['./main-page.component.css']
 })
 export class MainPageComponent implements OnInit {
-  SelectedTags: string[] = [];
-  
-  Quizzes: Quiz[] = [
-    Quiz.getDefault(),
-    Quiz.getDefault(),
-    Quiz.getDefault(),
-  ];
+  selectedTags: string[] = [];
 
-  constructor() { }
+  constructor(
+    public quizService: QuizService
+  ) { }
 
   ngOnInit(): void {
   }
 
+  
+  addQuiz = () => { this.quizService.addQuiz(Quiz.getDefault()); }
 }

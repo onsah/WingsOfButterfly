@@ -13,6 +13,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTabsModule, MatTab } from '@angular/material/tabs'; 
+import { MatSelectModule } from '@angular/material/select'; 
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -45,6 +46,7 @@ import { QuizPageComponent } from './quiz/quiz-page/quiz-page.component';
     FlexLayoutModule,
     ReactiveFormsModule,
     MatTabsModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
