@@ -13,7 +13,7 @@ import { RegisterError } from 'src/app/interfaces/IAccountService';
   styleUrls: ['./register-page.component.css']
 })
 export class RegisterPageComponent{
-  loginForm: FormGroup;
+  registerForm: FormGroup;
 
 
   constructor(
@@ -22,7 +22,7 @@ export class RegisterPageComponent{
     private formBuilder: FormBuilder,
     private router: Router,
   ) {
-    this.loginForm = formBuilder.group({
+    this.registerForm = formBuilder.group({
       email: '',
       password: '',
       passwordRepeat: '',
@@ -35,7 +35,12 @@ export class RegisterPageComponent{
 
   onSubmit({ email, password, passwordRepeat }: { email: string, password: string, passwordRepeat: string }) {
 
-    const result = this.accService.registerDeveloper(email, password, passwordRepeat);
+    this.showMessage('Not implemented yet');
+
+    // TODO: uncomment when AccountService.registerDeveloper is implemented
+
+    /* const result = this.accService.registerDeveloper(email, password, passwordRepeat, null, null, null, null, null);
+    
     switch (result.tag) {
       case 'value':
         this.router.navigate(['main']); // TODO
@@ -60,6 +65,6 @@ export class RegisterPageComponent{
               this.showMessage("Unkown register error occured!");
             break;
         }
-    }
+    } */
   }
 }

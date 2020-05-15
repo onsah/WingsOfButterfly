@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { User, JobSituation, ICV, UserType } from '../models/user';
-import { IAccountService, LoginResult, LoginError } from '../interfaces/IAccountService';
+import { IAccountService, LoginResult, LoginError, RegisterResult } from '../interfaces/IAccountService';
 
 @Injectable({
   providedIn: 'root'
@@ -37,14 +37,13 @@ export class AccountService implements IAccountService {
   registerDeveloper(
     email: string,
     password: string,
-    passwordRepeat: string,
-    //username: string,
-    //JobSituation: JobSituation, //şimdilik comment
-    //contactInfo: string,
-    //description?: string,
-    // cv?: ICV, // büyük ihtimal uçacak
-    // avatar?: Uint8Array
-  ): boolean {
+    username: string,
+    JobSituation: JobSituation,
+    contactInfo: string,
+    description?: string,
+     cv?: ICV, // büyük ihtimal uçacak
+     avatar?: Uint8Array
+  ): RegisterResult {
     throw new Error('Method not implemented.');
   }
 

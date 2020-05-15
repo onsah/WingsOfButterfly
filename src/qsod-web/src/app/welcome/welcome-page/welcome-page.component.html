@@ -1,7 +1,7 @@
 <body class="welcome-body">
   <h1 class="main-title">Quiz System of Doom</h1>
 
-  <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
+  <form class="login-form" [formGroup]="loginForm" fxLayoutAlign="center" fxLayout="column" (ngSubmit)="onSubmit(loginForm.value)">
     <mat-form-field class="login-field">
       <mat-label #emailLabel>E-mail</mat-label>
       <input #email matInput formControlName="email" required>
