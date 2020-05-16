@@ -1,7 +1,8 @@
-import { User, JobSituation, ICV } from '../models/user'; 
+import { User, JobSituation, ICV } from '../models/user';
 import { Either } from '../utility/Either';
 
 export type LoginResult = Either<User, LoginError>;
+export type RegisterResult = Either<User, RegisterError>;
 
 export interface IAccountService {
     login(email: string, password: string): Promise<LoginResult>;
@@ -9,18 +10,16 @@ export interface IAccountService {
 
     isLoggedIn(): boolean;
 
-    getProfile(): User;
-
     registerDeveloper(
         email: string,
-        password: string, 
-        username: string, 
+        password: string,
+        username: string,
         JobSituation: JobSituation,
         contactInfo: string,
         description?: string,
         cv?: ICV,
         avatar?: Uint8Array,
-    ): boolean;
+    ): RegisterResult;
 
     registerCompany(
         email: string,
@@ -46,4 +45,12 @@ export enum LoginError {
     UsernameNotValid = "UsernameNotValid",
     PasswordNotValid = "PasswordNotValid",
     Unkown = "Unkown",
+}
+
+export enum RegisterError {
+    EmailOrPasswordEmpty,
+    EmailAlreadyTaken,
+    UsernameNotValid,
+    PasswordNotValid,
+    PasswordsDoNotMatch
 }

@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, ComponentRef, ComponentFactoryResolver, OnDestroy } from '@angular/core';
-import { Router, RouterEvent, NavigationEnd, ActivatedRouteSnapshot, NavigationStart, ActivatedRoute } from '@angular/router';
-import { SubscriptionLike } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../services/account.service';
+import { UserType } from '../models/user';
 
 @Component({
   selector: 'app-toolbar',
@@ -17,7 +16,10 @@ export class ToolbarComponent implements OnInit {
   ngOnInit(): void { }
 
   // Connect to LoginServices-
-  isLoggedIn(): boolean {
-    return this.accountService.isLoggedIn();
-  }
+  isLoggedIn = (): boolean => this.accountService.isLoggedIn();
+
+  // TODO: implement
+  isDeveloper = (): boolean => this.accountService.getUserType() === UserType.Developer;
+
+  getUsername = (): string  => this.accountService.getUsername();
 }

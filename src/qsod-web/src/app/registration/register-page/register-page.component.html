@@ -1,0 +1,24 @@
+<body class="registration-body">
+  <h1 class="main-title">Quiz System of Doom</h1>
+
+  <form class="registry-form" [formGroup]="registerForm" fxLayoutAlign="center" fxLayout="column" (ngSubmit)="onSubmit(registerForm.value)">
+    <mat-form-field class="registry-field">
+      <mat-label #emailLabel>E-mail</mat-label>
+      <input #email matInput formControlName="email" required>
+    </mat-form-field>
+    <br>
+    <mat-form-field class="registry-field">
+      <mat-label #passwordLabel>Password</mat-label>
+      <input matInput type="password" formControlName="password" required>
+    </mat-form-field>
+
+    <mat-form-field class="registry-field">
+      <mat-label #passwordRepeatLabel>Password(again)</mat-label>
+      <input matInput type="passwordRepeat" formControlName="passwordRepeat" required>
+    </mat-form-field>
+
+    <p>Already have an Account?: <a routerLink="/">Login</a></p>
+
+    <button class="sign-up" mat-raised-button color="primary" type="submit">Sign Up</button>
+  </form>
+</body>

@@ -123,5 +123,8 @@
       }
     }
   },
-  "defaultProject": "qsod-web"
+  "defaultProject": "qsod-web",
+  "cli": {
+    "analytics": false
+  }
 }

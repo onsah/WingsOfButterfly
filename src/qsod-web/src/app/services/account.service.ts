@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { User, JobSituation, ICV } from '../models/user';
-import { IAccountService, LoginResult, LoginError } from '../interfaces/IAccountService';
+import { User, JobSituation, ICV, UserType } from '../models/user';
+import { IAccountService, LoginResult, LoginError, RegisterResult } from '../interfaces/IAccountService';
 import { ApiService } from './api.service';
 
 @Injectable({
@@ -21,7 +21,7 @@ export class AccountService implements IAccountService {
   public async login(email: string, password: string): Promise<LoginResult> {
     if (email === '' || password === '') {
       console.warn('email or password is empty');
-      return { tag: "error", error: LoginError.EmailOrPasswordEmpty };
+      return { tag: 'error', error: LoginError.EmailOrPasswordEmpty };
     }
 
     let response = await this.apiClient.login(email, password);
@@ -37,34 +37,36 @@ export class AccountService implements IAccountService {
 
   isLoggedIn = (): boolean => this.user !== null;
 
-  getProfile = (): User => this.user;
+  getUserType = (): UserType => this.user?.type;
+
+  getUsername = (): string => this.user?.username;
 
   logout(): void {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
 
   registerDeveloper(
-    email: string, 
-    password: string, 
-    username: string, 
-    JobSituation: JobSituation, 
-    contactInfo: string, 
-    description?: string, 
-    cv?: ICV, 
-    avatar?: Uint8Array
-  ): boolean {
-    throw new Error("Method not implemented.");
+    email: string,
+    password: string,
+    username: string,
+    JobSituation: JobSituation,
+    contactInfo: string,
+    description?: string,
+     cv?: ICV, // büyük ihtimal uçacak
+     avatar?: Uint8Array
+  ): RegisterResult {
+    throw new Error('Method not implemented.');
   }
 
   registerCompany(email: string, password: string, username: string, description: string, contactInfo: string, logo: Uint8Array): boolean {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
 
   registerAdmin(email: string, password: string, username: string): boolean {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
 
   updateProfile(email: string, password: string, newProfile: User): boolean {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
 }

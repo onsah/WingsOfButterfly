@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WelcomeToolbarComponent } from './welcome-toolbar.component';
+import { QuizPageComponent } from './quiz-page.component';
 
-describe('WelcomeToolbarComponent', () => {
-  let component: WelcomeToolbarComponent;
-  let fixture: ComponentFixture<WelcomeToolbarComponent>;
+describe('QuizPageComponent', () => {
+  let component: QuizPageComponent;
+  let fixture: ComponentFixture<QuizPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WelcomeToolbarComponent ]
+      declarations: [ QuizPageComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WelcomeToolbarComponent);
+    fixture = TestBed.createComponent(QuizPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
