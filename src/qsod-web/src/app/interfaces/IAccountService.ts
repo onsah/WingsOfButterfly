@@ -2,7 +2,7 @@ import { User, JobSituation, ICV } from '../models/user';
 import { Either } from '../utility/Either';
 
 export type LoginResult = Either<User, LoginError>;
-export type RegisterResult = Either<User, RegisterError>;
+export type RegisterResult = Either<boolean, RegisterError>;
 
 export interface IAccountService {
     login(email: string, password: string): Promise<LoginResult>;
@@ -19,7 +19,7 @@ export interface IAccountService {
         description?: string,
         cv?: ICV,
         avatar?: Uint8Array,
-    ): RegisterResult;
+    ): Promise<RegisterResult>;
 
     registerCompany(
         email: string,
@@ -52,5 +52,6 @@ export enum RegisterError {
     EmailAlreadyTaken,
     UsernameNotValid,
     PasswordNotValid,
-    PasswordsDoNotMatch
+    PasswordsDoNotMatch,
+    Unkown,
 }

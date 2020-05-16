@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import { User, JobSituation, ICV, UserType } from '../models/user';
-import { IAccountService, LoginResult, LoginError, RegisterResult } from '../interfaces/IAccountService';
+import { IAccountService, LoginResult, LoginError, RegisterResult, RegisterError } from '../interfaces/IAccountService';
 import { ApiService } from './api.service';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +46,7 @@ export class AccountService implements IAccountService {
     throw new Error('Method not implemented.');
   }
 
-  registerDeveloper(
+  async registerDeveloper(
     email: string,
     password: string,
     username: string,
@@ -54,8 +55,14 @@ export class AccountService implements IAccountService {
     description?: string,
      cv?: ICV, // büyük ihtimal uçacak
      avatar?: Uint8Array
-  ): RegisterResult {
-    throw new Error('Method not implemented.');
+  ): Promise<RegisterResult> {
+    let response = await this.apiClient.register(email, username, password, UserType.Developer);
+
+    if (response) {
+      return { tag: "value", value: true };
+    } else {
+      return { tag: "error", error: RegisterError.Unkown };
+    }
   }
 
   registerCompany(email: string, password: string, username: string, description: string, contactInfo: string, logo: Uint8Array): boolean {
@@ -68,5 +75,9 @@ export class AccountService implements IAccountService {
 
   updateProfile(email: string, password: string, newProfile: User): boolean {
     throw new Error('Method not implemented.');
+  }
+
+  deleteAccount(): Promise<boolean> {
+    return this.apiClient.delete(this.user.id);
   }
 }

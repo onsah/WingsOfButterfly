@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { LoginResult } from '../interfaces/IAccountService';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { async } from '@angular/core/testing';
-import { User } from '../models/user';
+import { HttpClient } from '@angular/common/http';
+import { User, UserType } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -37,9 +35,34 @@ export class ApiService {
       return resp;
   }
 
+  async register(email: string, username: string, password: string, userType: UserType): Promise<boolean> {
+    let url = this.LOGIN_ENDPOINT;
+
+    let body = {
+      email,
+      password,
+      username,
+      role: userType.toString(),
+    };
+
+    return await this.post<boolean>(url, body, {});
+  }
+
+  private post = async <T> (url: string, body: {}, options: {}): Promise<T> => {
+    console.log(`making post request ${url}`);
+
+    return await this.http.post<T>(url, body, options).toPromise();
+  }
+
   private get = async <T> (url: string, options: {}): Promise<T> => {
-    console.log(`making request ${url}`);
+    console.log(`making get request ${url}`);
 
     return this.http.get<T>(url, options).toPromise();
   };
+
+  async delete(id: number): Promise<boolean> {
+    let url = this.LOGIN_ENDPOINT + "/" + id;
+
+    return await this.http.delete<boolean>(url).toPromise();
+  }
 }

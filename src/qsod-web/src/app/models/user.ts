@@ -8,6 +8,7 @@ export class User {
     contactInfo: string = null;
     jobSituation: JobSituation = JobSituation.Unemployed;
     avatarUrl: string = null;
+    id: number = -1;
 
     constructor(email: string, password: string) {
         this.email = email;
@@ -20,9 +21,9 @@ export class User {
 }
 
 export enum UserType {
-    Developer,
-    Company,
-    Admin,
+    Developer = "DEV",
+    Company = "COM",
+    Admin = "ADMIN",
 }
 
 export enum JobSituation {

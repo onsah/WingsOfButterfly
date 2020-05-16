@@ -25,7 +25,7 @@ export class RegisterPageComponent{
     this.registerForm = formBuilder.group({
       email: '',
       password: '',
-      passwordRepeat: '',
+      username: '',
     });
   }
 
@@ -33,13 +33,13 @@ export class RegisterPageComponent{
     this.snackBar.open(message, 'close', { duration: 2000 });
   }
 
-  onSubmit({ email, password, passwordRepeat }: { email: string, password: string, passwordRepeat: string }) {
+  async onSubmit({ email, password, username }: { email: string, password: string, username: string }) {
 
-    this.showMessage('Not implemented yet');
+    // this.showMessage('Not implemented yet');
 
     // TODO: uncomment when AccountService.registerDeveloper is implemented
 
-    /* const result = this.accService.registerDeveloper(email, password, passwordRepeat, null, null, null, null, null);
+    const result = await this.accService.registerDeveloper(email, password, username, null, null, null, null, null);
     
     switch (result.tag) {
       case 'value':
@@ -65,6 +65,6 @@ export class RegisterPageComponent{
               this.showMessage("Unkown register error occured!");
             break;
         }
-    } */
+    }
   }
 }
