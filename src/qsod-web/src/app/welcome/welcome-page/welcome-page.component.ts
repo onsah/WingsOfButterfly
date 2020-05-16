@@ -45,8 +45,8 @@ export class WelcomePageComponent implements OnInit {
     this.snackBar.open(message, 'close', { duration: 2000 });
   }
 
-  onSubmit({ email, password }: { email: string, password: string }) {
-    let result = this.accService.login(email, password);
+  async onSubmit({ email, password }: { email: string, password: string }) {
+    let result = await this.accService.login(email, password);
 
     switch (result.tag) {
       case "value": 

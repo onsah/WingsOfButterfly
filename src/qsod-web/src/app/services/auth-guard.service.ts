@@ -19,7 +19,7 @@ export class AuthGuardService implements CanActivate {
       return true;
     }
 
-    console.log('can\'t enter!');
+    console.log('can\'t enter without logging in!');
     this.router.navigate(['']);
     return false;
   }

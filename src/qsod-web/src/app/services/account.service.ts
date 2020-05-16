@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { User, JobSituation, ICV } from '../models/user';
 import { IAccountService, LoginResult, LoginError } from '../interfaces/IAccountService';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,19 +12,27 @@ import { IAccountService, LoginResult, LoginError } from '../interfaces/IAccount
 export class AccountService implements IAccountService {
   private user: User;
 
-  constructor() {
+  constructor(
+    private apiClient: ApiService
+  ) {
     this.user = null;
   }
 
-  public login(email: string, password: string): LoginResult {
+  public async login(email: string, password: string): Promise<LoginResult> {
     if (email === '' || password === '') {
       console.warn('email or password is empty');
       return { tag: "error", error: LoginError.EmailOrPasswordEmpty };
     }
-    // TODO implement
-    this.user = new User(email, password);
 
-    return { tag:"value", value: this.user };
+    let response = await this.apiClient.login(email, password);
+    
+    if (response !== null) {
+      this.user = response;
+      console.log("user: ", this.user);
+      return { tag:"value", value: this.user };
+    } else {
+      return { tag: "error", error: LoginError.Unkown };
+    }
   }
 
   isLoggedIn = (): boolean => this.user !== null;

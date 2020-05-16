@@ -4,7 +4,7 @@ import { Either } from '../utility/Either';
 export type LoginResult = Either<User, LoginError>;
 
 export interface IAccountService {
-    login(email: string, password: string): LoginResult;
+    login(email: string, password: string): Promise<LoginResult>;
     logout(): void;
 
     isLoggedIn(): boolean;
@@ -41,8 +41,9 @@ export interface IAccountService {
 }
 
 export enum LoginError {
-    EmailOrPasswordEmpty,
-    EmailAlreadyTaken,
-    UsernameNotValid,
-    PasswordNotValid,
+    EmailOrPasswordEmpty = "EmailOrPasswordEmpty",
+    EmailAlreadyTaken = "EmailAlreadyTaken",
+    UsernameNotValid = "UsernameNotValid",
+    PasswordNotValid = "PasswordNotValid",
+    Unkown = "Unkown",
 }
