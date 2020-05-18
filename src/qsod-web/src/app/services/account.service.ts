@@ -25,7 +25,14 @@ export class AccountService implements IAccountService {
       return { tag: 'error', error: LoginError.EmailOrPasswordEmpty };
     }
 
-    let response = await this.apiClient.login(email, password);
+    this.user = new User(email, password);
+
+    console.warn('login is disabled for development. Enable it before demo');
+
+    return { tag: "value", value: this.user };
+
+    // Commented for development
+    /* let response = await this.apiClient.login(email, password);
     
     if (response !== null) {
       this.user = response;
@@ -33,7 +40,7 @@ export class AccountService implements IAccountService {
       return { tag:"value", value: this.user };
     } else {
       return { tag: "error", error: LoginError.Unkown };
-    }
+    } */
   }
 
   isLoggedIn = (): boolean => this.user !== null;

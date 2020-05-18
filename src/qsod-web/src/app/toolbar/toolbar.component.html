@@ -3,12 +3,12 @@
   
     <span class="placeholder"> </span>
 
-    <a mat-button *ngIf="isDeveloper()">
+    <a mat-button *ngIf="isDeveloper()" routerLink="/main">
       My Quizzes
     </a>
 
     <a mat-button *ngIf="isLoggedIn()">
-      {{ getUsername() }}
+      {{ getUsername() }}'s Profile
     </a>
   
     <button mat-flat-button color="primary">

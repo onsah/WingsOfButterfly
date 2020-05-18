@@ -1,0 +1,27 @@
+.question-pane {
+}
+
+.question-content {
+    width: 60%;
+    margin: auto;
+    margin-top: 5rem;
+    border: 1px solid;
+    border-color: lightslategray;
+}
+
+.description {
+    margin: 1rem;
+}
+
+.divide-line {
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+
+.question-body {
+    margin: 1rem;
+}
+
+.next-button {
+    height: 2.5rem;
+}

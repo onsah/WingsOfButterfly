@@ -1,5 +1,29 @@
 
-<mat-tab-group>
-    <mat-tab *ngFor="let qID of quiz.questionIDs" label="Question {{ qID }}">
+<mat-tab-group #tabGroup class="question-tabs" fxFlex="grow">
+    <mat-tab *ngFor="let question of questions; let i = index" label="Question {{ i }}">
+        <div class="question-pane" fxLayout="column" fxFlex="grow" fxLayoutAlign="center">
+            <div class="question-content" fxLayout="column">
+                <mat-label class="description">
+                    {{ question.description }}
+                </mat-label>
+                <mat-divider class="divide-line" fxFlex="grow">
+                </mat-divider>
+                <div class="question-body" fxLayout="row">
+                    <div fxLayout="column" fxLayoutGap="0.5rem">
+                        <mat-radio-button *ngFor="let option of question.options; let i = index" value="i">
+                            {{ option }}
+                        </mat-radio-button>
+                    </div>
+
+                    <div class="placeholder" fxFlex="grow">
+
+                    </div>
+
+                    <button class="next-button" mat-raised-button color="primary" (click)="onNextQuestion()">
+                        Next
+                    </button>
+                </div>
+            </div>
+        </div>
     </mat-tab>
 </mat-tab-group>

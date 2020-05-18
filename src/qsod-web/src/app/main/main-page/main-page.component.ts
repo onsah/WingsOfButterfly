@@ -3,6 +3,8 @@ import { Quiz, QuizType } from 'src/app/models/quiz';
 import { Difficulty, Tag } from 'src/app/models/types';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { QuizService } from 'src/app/services/quiz.service';
+import { Router, NavigationExtras } from '@angular/router';
+import { DataService } from 'src/app/services/data-service.service';
 
 @Component({
   selector: 'app-main-page',
@@ -19,7 +21,9 @@ export class MainPageComponent implements OnInit {
   private _selectedTags: BehaviorSubject<Tag[]> = new BehaviorSubject(this.selectedTagsStore);
   
   constructor(
-    public quizService: QuizService
+    public quizService: QuizService,
+    private router: Router,
+    private dataService: DataService,
   ) { 
     this.unselectedTagsStore = quizService.tags;
     this._unselectedTags.next(this.unselectedTagsStore);
@@ -70,4 +74,11 @@ export class MainPageComponent implements OnInit {
   }
 
   addQuiz = () => { this.quizService.addQuiz(Quiz.getDefault()); }
+
+  onStartQuiz(quiz: Quiz) {    
+    // To pass the quiz
+    this.dataService.quiz = quiz;
+
+    this.router.navigate(['quiz']);
+  }
 }

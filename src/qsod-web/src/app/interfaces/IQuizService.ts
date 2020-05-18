@@ -20,4 +20,9 @@ export interface IQuizService {
      * @param tags tags wanted in the quiz
      */
     receiveQuizzesByTag(tags: Tag[]): void;
+
+    /**
+     * Retrieves the questions of the quiz
+     */
+    receiveQuestions(quiz: Quiz): Promise<Question[]>;
 }

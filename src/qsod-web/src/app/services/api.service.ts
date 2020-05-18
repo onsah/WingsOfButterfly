@@ -48,6 +48,15 @@ export class ApiService {
     return await this.post<boolean>(url, body, {});
   }
 
+  /**
+   * Deletes the account
+   */
+  async delete(id: number): Promise<boolean> {
+    let url = this.LOGIN_ENDPOINT + "/" + id;
+
+    return await this.http.delete<boolean>(url).toPromise();
+  }
+
   private post = async <T> (url: string, body: {}, options: {}): Promise<T> => {
     console.log(`making post request ${url}`);
 
@@ -59,10 +68,4 @@ export class ApiService {
 
     return this.http.get<T>(url, options).toPromise();
   };
-
-  async delete(id: number): Promise<boolean> {
-    let url = this.LOGIN_ENDPOINT + "/" + id;
-
-    return await this.http.delete<boolean>(url).toPromise();
-  }
 }
