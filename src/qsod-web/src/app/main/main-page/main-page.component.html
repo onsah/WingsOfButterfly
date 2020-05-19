@@ -3,7 +3,7 @@
         <mat-form-field #unselectedTagsSelect>
             <mat-label>Add a Tag</mat-label>
             <mat-select [(value)]="selectedUnselectedTag" (selectionChange)="selectTag($event.value)">
-                <mat-option>None</mat-option>
+                <mat-option value='None'>None</mat-option>
                 <mat-option *ngFor="let tag of unselectedTags | async" [value]="tag">
                     {{ tag }}
                 </mat-option>
@@ -13,7 +13,7 @@
         <mat-form-field #selectedTagsSelect>
             <mat-label>Remove a Tag</mat-label>
             <mat-select [(value)]="selectedSelectedTag" (selectionChange)="unselectTag($event.value)">
-                <mat-option>None</mat-option>
+                <mat-option value='None'>None</mat-option>
                 <mat-option *ngFor="let tag of selectedTags | async" [value]="tag">
                     {{ tag }}
                 </mat-option>

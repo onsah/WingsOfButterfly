@@ -38,6 +38,9 @@ export class MainPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Filter quizzes by selected tags
+    this.selectedTags.subscribe(tags => 
+        this.quizService.receiveQuizzesByTag(tags));
   }
 
   selectTag(tag: Tag): boolean {
@@ -46,10 +49,13 @@ export class MainPageComponent implements OnInit {
     if (index > -1) {
       this.unselectedTagsStore.splice(index, 1);
       this._unselectedTags.next(this.unselectedTagsStore);
-      this.selectedUnselectedTag = '';
+      this.selectedUnselectedTag = 'None';
+      this.selectedSelectedTag = 'None';
       
       this.selectedTagsStore.push(tag);
       this._selectedTags.next(this.selectedTagsStore);
+
+      // Filter quizzes by tags
 
       return true;
     } else {
@@ -62,7 +68,8 @@ export class MainPageComponent implements OnInit {
     if (index > -1) {
       this.selectedTagsStore.splice(index, 1);
       this._selectedTags.next(this.selectedTagsStore);
-      this.selectedSelectedTag = '';
+      this.selectedSelectedTag = 'None';
+      this.selectedUnselectedTag = 'None';
       
       this.unselectedTagsStore.push(tag);
       this._unselectedTags.next(this.unselectedTagsStore);

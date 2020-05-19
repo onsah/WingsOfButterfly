@@ -60,8 +60,12 @@ export class QuizService implements IQuizService {
     throw new Error("Method not implemented.");
   }
 
-  receiveQuizzesByTag(tags: string[]): void {
-    throw new Error("Method not implemented.");
+  receiveQuizzesByTag(tags: Tag[]): void {
+    let filtered = this.dataStore.filter(q => q.tags.every(tag => tags.includes(tag)));
+
+    console.warn('implement by api');
+
+    this._quizzes.next(filtered);
   }
 
   async receiveQuestions(quiz: Quiz): Promise<Question[]> {
