@@ -7,6 +7,7 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { QuizPageComponent } from './quiz/quiz-page/quiz-page.component';
 import { RegisterPageComponent } from './registration/register-page/register-page.component';
 import { Quiz } from './models/quiz';
+import { QuizReportPageComponent } from './quiz/quiz-report-page/quiz-report-page.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: 'registration',
     component: RegisterPageComponent,
+  },
+  {
+    path: 'quiz-report',
+    component: QuizReportPageComponent,
   }
 ];
 

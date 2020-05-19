@@ -5,6 +5,7 @@ import { Difficulty } from 'src/app/models/types';
 import { DataService } from 'src/app/services/data-service.service';
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -32,6 +33,7 @@ export class QuizPageComponent implements OnInit {
   constructor( 
     private dataService: DataService,
     private snackBar: MatSnackBar,
+    private router: Router,
   ) {
     this.quiz = dataService.quiz;
 
@@ -58,6 +60,11 @@ export class QuizPageComponent implements OnInit {
 
       if (this.isLastPage()) {
         console.log(`Quiz finished: ${this.selectedOptions}`);
+
+        // Navigate to report page
+        // TODO: inject the quiz result to dataService
+
+        this.router.navigate(['quiz-report']);        
       } else {
         this.nextTab();
       }

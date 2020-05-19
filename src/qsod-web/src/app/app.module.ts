@@ -27,6 +27,7 @@ import { MainPageComponent } from './main/main-page/main-page.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { QuizPageComponent } from './quiz/quiz-page/quiz-page.component';
 import { RegisterPageComponent } from './registration/register-page/register-page.component';
+import { QuizReportPageComponent } from './quiz/quiz-report-page/quiz-report-page.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { RegisterPageComponent } from './registration/register-page/register-pag
     MainPageComponent,
     ToolbarComponent,
     QuizPageComponent,
-    RegisterPageComponent
+    RegisterPageComponent,
+    QuizReportPageComponent
   ],
   imports: [
     BrowserModule,

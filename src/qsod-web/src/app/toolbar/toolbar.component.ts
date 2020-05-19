@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../services/account.service';
 import { UserType } from '../models/user';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-toolbar',
@@ -10,7 +13,8 @@ import { UserType } from '../models/user';
 export class ToolbarComponent implements OnInit {
 
   constructor(
-    private accountService: AccountService
+    private accountService: AccountService,
+    private router: Router
   ) { }
 
   ngOnInit(): void { }
@@ -22,4 +26,16 @@ export class ToolbarComponent implements OnInit {
   isDeveloper = (): boolean => this.accountService.getUserType() === UserType.Developer;
 
   getUsername = (): string  => this.accountService.getUsername();
+
+  private currentPage() {
+    return this.router.url;
+  }
+
+  isMainPage() {
+    return this.currentPage() === '/main';
+  }
+
+  isMyQuizzesPage() {
+    return this.currentPage() === '/my-quizzes';
+  }
 }

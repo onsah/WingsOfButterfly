@@ -3,8 +3,12 @@
   
     <span class="placeholder"> </span>
 
-    <a mat-button *ngIf="isDeveloper()" routerLink="/main">
-      My Quizzes
+    <a mat-button *ngIf=" isLoggedIn() && !isMainPage()" routerLink="/main">
+      Quizzes
+    </a>
+
+    <a mat-button *ngIf=" isLoggedIn() && !isMyQuizzesPage()">
+      My Quiz History
     </a>
 
     <a mat-button *ngIf="isLoggedIn()">
