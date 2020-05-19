@@ -25,3 +25,7 @@
 .next-button {
     height: 2.5rem;
 }
+
+::ng-deep .mat-tab-label {
+    pointer-events: none;
+ }

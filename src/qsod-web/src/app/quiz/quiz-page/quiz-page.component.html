@@ -10,18 +10,24 @@
                 </mat-divider>
                 <div class="question-body" fxLayout="row">
                     <div fxLayout="column" fxLayoutGap="0.5rem">
-                        <mat-radio-button *ngFor="let option of question.options; let i = index" value="i">
+                        <mat-checkbox *ngFor="let option of question.options; let j = index" 
+                            [(ngModel)] = "currentOptions[j]" [id]=" 'option-' + j">
                             {{ option }}
-                        </mat-radio-button>
+                        </mat-checkbox>
                     </div>
 
                     <div class="placeholder" fxFlex="grow">
 
                     </div>
 
-                    <button class="next-button" mat-raised-button color="primary" (click)="onNextQuestion()">
-                        Next
-                    </button>
+                    <div fxLayout="column">
+
+                        <div fxFlex="grow"></div>
+                        <button class="next-button" mat-raised-button color="primary" (click)="onNextQuestion()">
+                            {{ questions.length === i + 1 ? 'Finish' : 'Next' }}
+                        </button>
+                    </div>
+
                 </div>
             </div>
         </div>

@@ -8,8 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatListModule } from '@angular/material/list';
-import { MatRadioModule } from '@angular/material/radio'; 
+import { MatListModule } from '@angular/material/list'; 
+import { MatCheckboxModule } from '@angular/material/checkbox'; 
+import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -54,7 +55,8 @@ import { RegisterPageComponent } from './registration/register-page/register-pag
     HttpClientModule,
     MatTabsModule,
     MatSelectModule,
-    MatRadioModule,
+    MatCheckboxModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
