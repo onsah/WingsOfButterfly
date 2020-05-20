@@ -35,7 +35,7 @@ export class ToolbarComponent implements OnInit {
     return this.currentPage() === '/main';
   }
 
-  isMyQuizzesPage() {
-    return this.currentPage() === '/my-quizzes';
+  isTrialsPage() {
+    return this.currentPage() === '/quiz-trials';
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Quiz } from 'src/app/models/quiz';
 import { Question, Option } from 'src/app/models/question';
 import { Difficulty } from 'src/app/models/types';
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   templateUrl: './quiz-page.component.html',
   styleUrls: ['./quiz-page.component.css']
 })
-export class QuizPageComponent implements OnInit {
+export class QuizPageComponent implements OnInit, OnDestroy {
 
   @ViewChild('tabGroup')
   tabGroupRef: MatTabGroup;
@@ -29,6 +29,9 @@ export class QuizPageComponent implements OnInit {
     Question.getDefault(),
   ];
   selectedOptions: Option[];
+  timeLeft: number;
+  
+  private interval;
 
   constructor( 
     private dataService: DataService,
@@ -36,6 +39,8 @@ export class QuizPageComponent implements OnInit {
     private router: Router,
   ) {
     this.quiz = dataService.quiz;
+
+    this.startTimer();
 
     dataService.requestQuestions()
       .then(questions => {
@@ -45,6 +50,14 @@ export class QuizPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.interval);
+  }
+
+  get percentage() {
+    return (this.timeLeft / this.quiz.duration) * 100;
   }
 
   onNextQuestion() {
@@ -59,12 +72,7 @@ export class QuizPageComponent implements OnInit {
       this.currentOptions = [false, false, false, false];
 
       if (this.isLastPage()) {
-        console.log(`Quiz finished: ${this.selectedOptions}`);
-
-        // Navigate to report page
-        // TODO: inject the quiz result to dataService
-
-        this.router.navigate(['quiz-report']);        
+        this.finishQuiz();     
       } else {
         this.nextTab();
       }
@@ -87,6 +95,27 @@ export class QuizPageComponent implements OnInit {
   private nextTab() {
     let i = this.currentTabIndex;
     this.currentTabIndex = i + 1;
+  }
+
+  private finishQuiz() {
+    // Navigate to report page
+    // TODO: inject the quiz result to dataService
+
+    this.router.navigate(['quiz-report']);   
+  }
+
+  private startTimer() {
+    this.timeLeft = this.quiz.duration;
+
+    this.interval = setInterval(() => {
+      if (this.timeLeft > 0) {
+        this.timeLeft -= 10;
+      } else {
+        console.warn('TODO: fill remaining questions as empty');
+
+        this.finishQuiz();
+      }
+    }, this.quiz.duration);
   }
 
   private optionFromBooleanArray(options: boolean[]): Option {

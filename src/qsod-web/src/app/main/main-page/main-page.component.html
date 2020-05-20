@@ -9,7 +9,10 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <div fxFlex="grow"></div>
+        <mat-form-field fxFlex="grow">
+            <mat-label>Search</mat-label>
+            <input matInput [(ngModel)]="searchText" (input)='filter()'>
+        </mat-form-field>
         <mat-form-field #selectedTagsSelect>
             <mat-label>Remove a Tag</mat-label>
             <mat-select [(value)]="selectedSelectedTag" (selectionChange)="unselectTag($event.value)">
@@ -35,7 +38,7 @@
                         </div>
                     </div>
                     <div matLine fxLayout="row" fxLayoutGap="0.5rem">
-                        <button mat-raised-button color="primary">Details</button>
+                        <button mat-raised-button color="primary" (click)="onQuizDetails(quiz)">Details</button>
                         <div class="placeholder"></div>
                         <mat-label class="no-of-attempts">TODO: # of attempts</mat-label>
                         <button mat-raised-button color="primary" (click)="onStartQuiz(quiz)">Start!</button>

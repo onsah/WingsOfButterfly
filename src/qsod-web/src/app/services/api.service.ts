@@ -47,7 +47,6 @@ export class ApiService {
 
     return await this.post<boolean>(url, body, {});
   }
-
   /**
    * Deletes the account
    */

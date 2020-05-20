@@ -21,6 +21,7 @@ export class Question {
 }
 
 export enum Option {
+    Empty = "",
     A = "A",
     B = "B",
     C = "C",

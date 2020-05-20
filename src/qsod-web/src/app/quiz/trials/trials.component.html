@@ -1,0 +1,52 @@
+<div class="content" fxLayout="column"> 
+    <div fxLayout="row" fxLayoutAlign="center" fxFlex="grow">
+        <mat-form-field #unselectedTagsSelect>
+            <mat-label>Add a Tag</mat-label>
+            <mat-select [(value)]="selectedUnselectedTag" (selectionChange)="selectTag($event.value)">
+                <mat-option value='None'>None</mat-option>
+                <mat-option *ngFor="let tag of unselectedTags | async" [value]="tag">
+                    {{ tag }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field fxFlex="grow">
+            <mat-label>Search</mat-label>
+            <input matInput [(ngModel)]="searchText" (input)='filter()'>
+        </mat-form-field>
+        <mat-form-field #selectedTagsSelect>
+            <mat-label>Remove a Tag</mat-label>
+            <mat-select [(value)]="selectedSelectedTag" (selectionChange)="unselectTag($event.value)">
+                <mat-option value='None'>None</mat-option>
+                <mat-option *ngFor="let tag of selectedTags | async" [value]="tag">
+                    {{ tag }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <mat-list class="quiz-list" fxLayoutAlign="start center" fxLayout="column" fxLayoutGap="3.5rem">
+        <mat-list-item class="quiz-list-item" *ngFor="let qwt of quizService.quizzesWithTrials | async">
+            <mat-card fxFlex="grow">
+                <mat-card-content>
+                    <div matLine fxLayout="row">
+                        <mat-label class="quiz-title">
+                            {{ qwt.quiz.title }}
+                        </mat-label>
+                        <div class="tags" fxLayout="row" fxLayoutGap="0.5rem">
+                            <button mat-flat-button color="accent" *ngFor="let tag of qwt.quiz.tags">
+                                {{ tag }}
+                            </button>
+                        </div>
+                    </div>
+                    <div matLine fxLayout="row" fxLayoutGap="0.5rem">
+                        <button mat-raised-button color="primary" (click)="onQuizDetails(qwt.quiz)">Details</button>
+                        <div class="placeholder" fxFlex="grow"></div>
+                        <!--TODO: add trial buttons-->
+                        <button mat-raised-button color="primary" *ngFor="let trial of qwt.trials" (click)="onTrialClick(trial)">
+                            Trial {{ trial.trialNo }}
+                        </button>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </mat-list-item>
+    </mat-list>
+</div>

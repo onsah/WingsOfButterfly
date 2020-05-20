@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { Quiz, QuizType } from 'src/app/models/quiz';
-import { Difficulty, Tag } from 'src/app/models/types';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Tag } from 'src/app/models/types';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { QuizService } from 'src/app/services/quiz.service';
-import { Router, NavigationExtras } from '@angular/router';
-import { DataService } from 'src/app/services/data-service.service';
-import { QuizDetailsComponent } from 'src/app/quiz/quiz-details/quiz-details.component';
+import { Quiz } from 'src/app/models/quiz';
+import { QuizDetailsComponent } from '../quiz-details/quiz-details.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Trial } from 'src/app/models/trial';
 
 @Component({
-  selector: 'app-main-page',
-  templateUrl: './main-page.component.html',
-  styleUrls: ['./main-page.component.css']
+  selector: 'app-trials',
+  templateUrl: './trials.component.html',
+  styleUrls: ['./trials.component.css']
 })
-export class MainPageComponent implements OnInit {
+export class TrialsComponent implements OnInit {
   selectedSelectedTag: Tag;
   selectedUnselectedTag: Tag;
 
@@ -22,27 +21,16 @@ export class MainPageComponent implements OnInit {
   private _unselectedTags: BehaviorSubject<Tag[]> = new BehaviorSubject(this.unselectedTagsStore);
   private _selectedTags: BehaviorSubject<Tag[]> = new BehaviorSubject(this.selectedTagsStore);
   public searchText: string = '';
-  
+
   constructor(
     public quizService: QuizService,
-    private router: Router,
-    private dataService: DataService,
     private dialog: MatDialog,
-  ) { 
+  ) {
     this.unselectedTagsStore = quizService.tags;
     this._unselectedTags.next(this.unselectedTagsStore);
   }
 
-  get unselectedTags(): Observable<Tag[]> {
-    return this._unselectedTags.asObservable();
-  }
-
-  get selectedTags(): Observable<Tag[]> {
-    return this._selectedTags.asObservable();
-  }
-
   ngOnInit(): void {
-    // Automatically filters by tags when selected tag changes
     this.selectedTags.subscribe(_ => this.filter());
   }
 
@@ -81,23 +69,26 @@ export class MainPageComponent implements OnInit {
     }
   }
 
-  addQuiz = () => { this.quizService.addQuiz(Quiz.getDefault()); }
+  get unselectedTags(): Observable<Tag[]> {
+    return this._unselectedTags.asObservable();
+  }
 
-  onStartQuiz(quiz: Quiz) {    
-    // To pass the quiz
-    this.dataService.quiz = quiz;
-
-    this.router.navigate(['quiz']);
+  get selectedTags(): Observable<Tag[]> {
+    return this._selectedTags.asObservable();
   }
 
   onQuizDetails(quiz: Quiz) {
     this.dialog.open(QuizDetailsComponent, { width: '250px', data: quiz });
   }
 
+  onTrialClick(trial: Trial) {
+
+  }
+
   filter() {
     console.log(`search text: ${this.searchText}`);
     console.log(`tags: ${this.selectedTagsStore}`);
     // Filter quizzes both by tag and text
-    this.quizService.receiveQuizzes({ tags: this.selectedTagsStore, searchText: this.searchText });
+    this.quizService.receiveQuizzesOfDev({ tags: this.selectedTagsStore, searchText: this.searchText });
   }
 }

@@ -8,6 +8,7 @@ import { QuizPageComponent } from './quiz/quiz-page/quiz-page.component';
 import { RegisterPageComponent } from './registration/register-page/register-page.component';
 import { Quiz } from './models/quiz';
 import { QuizReportPageComponent } from './quiz/quiz-report-page/quiz-report-page.component';
+import { TrialsComponent } from './quiz/trials/trials.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
   {
     path: 'quiz-report',
     component: QuizReportPageComponent,
+  },
+  {
+    path: 'quiz-trials',
+    component: TrialsComponent,
   }
 ];
 

@@ -17,7 +17,7 @@ export class Quiz {
             id: 0,
             difficulty: Difficulty.Easy,
             type: QuizType.Curated,
-            duration: 0,
+            duration: 600,
             title: "Database",
             questionIDs: [ 0, 1, 2, 3, 4 ],
             tags: [ "SQL", "Algorithms" ],
@@ -32,7 +32,7 @@ export class Quiz {
 }
 
 export enum QuizType {
-    Curated,
-    Company,
-    Random, // Does this still exist
+    Curated = "Curated",
+    Company = "Company",
+    Random = "Random", // Does this still exist
 }

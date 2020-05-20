@@ -10,6 +10,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatListModule } from '@angular/material/list'; 
 import { MatCheckboxModule } from '@angular/material/checkbox'; 
+import { MatProgressBarModule } from '@angular/material/progress-bar'; 
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -28,6 +30,8 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { QuizPageComponent } from './quiz/quiz-page/quiz-page.component';
 import { RegisterPageComponent } from './registration/register-page/register-page.component';
 import { QuizReportPageComponent } from './quiz/quiz-report-page/quiz-report-page.component';
+import { QuizDetailsComponent } from './quiz/quiz-details/quiz-details.component';
+import { TrialsComponent } from './quiz/trials/trials.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +41,9 @@ import { QuizReportPageComponent } from './quiz/quiz-report-page/quiz-report-pag
     ToolbarComponent,
     QuizPageComponent,
     RegisterPageComponent,
-    QuizReportPageComponent
+    QuizReportPageComponent,
+    QuizDetailsComponent,
+    TrialsComponent
   ],
   imports: [
     BrowserModule,
@@ -59,6 +65,8 @@ import { QuizReportPageComponent } from './quiz/quiz-report-page/quiz-report-pag
     MatSelectModule,
     MatCheckboxModule,
     FormsModule,
+    MatProgressBarModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

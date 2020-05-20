@@ -1,6 +1,3 @@
-.question-pane {
-}
-
 .question-content {
     width: 60%;
     margin: auto;
@@ -18,12 +15,22 @@
     margin-left: 1rem;
 }
 
+.placeholder {
+    width: 50px;
+}
+
+.progress-bar {
+    height: 1rem;
+    width: 95%;
+}
+
 .question-body {
     margin: 1rem;
 }
 
 .next-button {
     height: 2.5rem;
+    width: 5rem;
 }
 
 ::ng-deep .mat-tab-label {
