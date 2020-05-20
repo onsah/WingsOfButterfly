@@ -1,4 +1,4 @@
-import { QuestionID, Difficulty } from './types';
+import { QuestionID, Difficulty, Tag } from './types';
 
 export class Question {
     id: QuestionID;
@@ -6,6 +6,7 @@ export class Question {
     difficulty: Difficulty;
     correctOption: Option;
     options: string[];  // Always 4
+    tags: Tag[];
     image: Uint8Array;
 
     static getDefault(id: number = 0): Question {
@@ -15,6 +16,7 @@ export class Question {
             difficulty: Difficulty.Easy,
             correctOption: Option.A,
             options: ["Option A", "Option B", "Option C", "Option D"] ,
+            tags: [ 'A', 'B' ],
             image: new Uint8Array(),
         }
     }

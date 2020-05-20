@@ -36,6 +36,9 @@ import { DevMainPageComponent } from './main/dev-main-page/dev-main-page.compone
 import { AdminMainPageComponent } from './main/admin-main-page/admin-main-page.component';
 import { CompanyMainPageComponent } from './main/company-main-page/company-main-page.component';
 import { QuizCreateComponent } from './quiz/quiz-create/quiz-create.component';
+import { QuizTrialPageComponent } from './quiz/quiz-trial-page/quiz-trial-page.component';
+import { MinuteSecondsPipe } from './utility/date-pipe.pipe';
+import { QuestionTrialDialogComponent } from './quiz/quiz-trial-page/question-trial-dialog/question-trial-dialog.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +54,10 @@ import { QuizCreateComponent } from './quiz/quiz-create/quiz-create.component';
     DevMainPageComponent,
     AdminMainPageComponent,
     CompanyMainPageComponent,
-    QuizCreateComponent
+    QuizCreateComponent,
+    QuizTrialPageComponent,
+    MinuteSecondsPipe,
+    QuestionTrialDialogComponent,
   ],
   imports: [
     BrowserModule,

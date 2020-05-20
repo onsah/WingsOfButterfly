@@ -6,6 +6,7 @@ import { Quiz } from 'src/app/models/quiz';
 import { QuizDetailsComponent } from '../quiz-details/quiz-details.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Trial } from 'src/app/models/trial';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-trials',
@@ -25,6 +26,7 @@ export class TrialsComponent implements OnInit {
   constructor(
     public quizService: QuizService,
     private dialog: MatDialog,
+    private router: Router,
   ) {
     this.unselectedTagsStore = quizService.tags;
     this._unselectedTags.next(this.unselectedTagsStore);
@@ -82,7 +84,9 @@ export class TrialsComponent implements OnInit {
   }
 
   onTrialClick(trial: Trial) {
+    console.warn('pass the trial and the quiz data to the dataService');
 
+    this.router.navigate(['quiz-trial']);
   }
 
   filter() {

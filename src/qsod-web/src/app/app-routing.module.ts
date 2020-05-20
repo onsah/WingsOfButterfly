@@ -6,11 +6,11 @@ import { MainPageComponent } from './main/main-page/main-page.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { QuizPageComponent } from './quiz/quiz-page/quiz-page.component';
 import { RegisterPageComponent } from './registration/register-page/register-page.component';
-import { Quiz } from './models/quiz';
 import { QuizReportPageComponent } from './quiz/quiz-report-page/quiz-report-page.component';
 import { TrialsComponent } from './quiz/trials/trials.component';
 import { LoginDirectService } from './services/login-direct.service';
 import { QuizCreateComponent } from './quiz/quiz-create/quiz-create.component';
+import { QuizTrialPageComponent } from './quiz/quiz-trial-page/quiz-trial-page.component';
 
 const routes: Routes = [
   {
@@ -51,6 +51,10 @@ const routes: Routes = [
   {
     path: 'quiz-admin/:isEditMode',
     component: QuizCreateComponent
+  },
+  {
+    path: 'quiz-trial',
+    component: QuizTrialPageComponent,
   }
 ];
 

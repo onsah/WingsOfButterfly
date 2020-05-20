@@ -1,0 +1,38 @@
+<div class="content" fxLayout="column" fxLayoutGap="1rem">
+    <div class="content-header" fxLayout="row" fxFlex="grow">
+        <div fxLayout="column" fxFlex="grow">
+            <mat-label class="header"> Quiz {{ quiz.title }} </mat-label>
+            <div fxFlex="grow"></div>
+            <mat-label> Success rate: {{ successPercentage }} </mat-label>
+        </div>
+        <div class="placeholder" fxFlex="grow"></div>
+        <div fxLayout="column">
+            <mat-label class="elapsed-time"> {{ trial.finishedIn | minuteSeconds }} </mat-label>
+            <div fxFlex="grow"></div>
+            <mat-label class="passed-text">
+                {{ trial.passed ? 'Passed' : 'Failed' }}
+            </mat-label>
+        </div>
+    </div>
+    <mat-divider fxFlex="grow" ></mat-divider>
+    <mat-list class="answers" fxLayout="column"  fxLayoutGap="4rem">
+        <mat-list-item class="answer" *ngFor="let question of questions; let i = index">
+            <mat-card fxFlex="grow">
+                <mat-card-content>
+                    <div fxLayout="row">
+                        <mat-label>
+                            Question {{ i + 1 }} {{ isQuestionCorrect(i) ? 'Correct' : 'Wrong' }}
+                        </mat-label>
+                        <div class="placeholder" fxFlex="grow"></div>
+                        <div class="tags" fxLayout="row" fxLayoutGap="0.5rem">
+                            <button mat-flat-button color="accent" *ngFor="let tag of question.tags">
+                                {{ tag }}
+                            </button>
+                        </div>
+                    </div>
+                    <button mat-raised-button color="primary" (click)="showQuestionDetails(question, trial.choosenOptions[i], i)"> Details</button>
+                </mat-card-content>
+            </mat-card>
+        </mat-list-item>
+    </mat-list>
+</div>

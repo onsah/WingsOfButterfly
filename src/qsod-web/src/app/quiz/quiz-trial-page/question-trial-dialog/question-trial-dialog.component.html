@@ -1,0 +1,13 @@
+<div fxLayout="column">
+    <mat-label class="title"> Question {{ questionIndex }} </mat-label>
+
+    <mat-divider fxFlex="grow"></mat-divider>
+
+    <mat-label class="description"> {{ question.description }} </mat-label>
+
+    <mat-divider fxFlex="grow"></mat-divider>
+
+    <div fxLayout="row" *ngFor="let option of question.options; let i = index">
+        Option {{ i }}: {{ question.options[i] }}  {{ correctOptions[i] ? '(Correct)': '' }} {{ selectedOptions[i] ? '(Selected)' : '' }}
+    </div>
+</div>
