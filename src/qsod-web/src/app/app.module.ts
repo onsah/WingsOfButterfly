@@ -32,6 +32,10 @@ import { RegisterPageComponent } from './registration/register-page/register-pag
 import { QuizReportPageComponent } from './quiz/quiz-report-page/quiz-report-page.component';
 import { QuizDetailsComponent } from './quiz/quiz-details/quiz-details.component';
 import { TrialsComponent } from './quiz/trials/trials.component';
+import { DevMainPageComponent } from './main/dev-main-page/dev-main-page.component';
+import { AdminMainPageComponent } from './main/admin-main-page/admin-main-page.component';
+import { CompanyMainPageComponent } from './main/company-main-page/company-main-page.component';
+import { QuizCreateComponent } from './quiz/quiz-create/quiz-create.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +47,11 @@ import { TrialsComponent } from './quiz/trials/trials.component';
     RegisterPageComponent,
     QuizReportPageComponent,
     QuizDetailsComponent,
-    TrialsComponent
+    TrialsComponent,
+    DevMainPageComponent,
+    AdminMainPageComponent,
+    CompanyMainPageComponent,
+    QuizCreateComponent
   ],
   imports: [
     BrowserModule,

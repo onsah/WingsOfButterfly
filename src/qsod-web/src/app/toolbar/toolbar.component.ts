@@ -38,4 +38,8 @@ export class ToolbarComponent implements OnInit {
   isTrialsPage() {
     return this.currentPage() === '/quiz-trials';
   }
+
+  getPageName() {
+    return this.router.url.replace('/', '');
+  }
 }

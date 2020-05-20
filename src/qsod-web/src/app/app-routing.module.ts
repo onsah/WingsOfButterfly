@@ -9,11 +9,21 @@ import { RegisterPageComponent } from './registration/register-page/register-pag
 import { Quiz } from './models/quiz';
 import { QuizReportPageComponent } from './quiz/quiz-report-page/quiz-report-page.component';
 import { TrialsComponent } from './quiz/trials/trials.component';
+import { LoginDirectService } from './services/login-direct.service';
+import { QuizCreateComponent } from './quiz/quiz-create/quiz-create.component';
 
 const routes: Routes = [
   {
     path: '',
+    redirectTo: '/welcome',
+    pathMatch: 'full',
+  },
+  {
+    path: 'welcome',
     component: WelcomePageComponent,
+    canActivate: [
+      LoginDirectService
+    ]
   },
   {
     path: 'main',
@@ -37,6 +47,10 @@ const routes: Routes = [
   {
     path: 'quiz-trials',
     component: TrialsComponent,
+  },
+  {
+    path: 'quiz-admin/:isEditMode',
+    component: QuizCreateComponent
   }
 ];
 

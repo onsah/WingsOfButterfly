@@ -1,4 +1,5 @@
-<div class="content" fxLayout="column"> 
+<div class="content" fxLayout="column" fxLayoutGap="1rem"> 
+    <mat-label class="header"> Add/Edit Quizzes </mat-label>
     <div fxLayout="row" fxLayoutAlign="center" fxFlex="grow" fxLayoutGap="0.5rem">
         <mat-form-field #unselectedTagsSelect>
             <mat-label>Add a Tag</mat-label>
@@ -24,26 +25,26 @@
         </mat-form-field>
     </div>
     <mat-list class="quiz-list" fxLayoutAlign="start center" fxLayout="column" fxLayoutGap="3.5rem">
-        <mat-list-item class="quiz-list-item" *ngFor="let qwt of quizService.quizzesWithTrials | async">
+        <mat-list-item>
+            <button mat-raised-button color="primary" style="margin: auto;" [routerLink]="['/quiz-admin', false]">
+                Create New Quiz
+            </button>
+        </mat-list-item>
+        <mat-list-item class="quiz-list-item" *ngFor="let quiz of quizService.quizzes | async">
             <mat-card fxFlex="grow">
                 <mat-card-content>
                     <div matLine fxLayout="row">
                         <mat-label class="quiz-title">
-                            {{ qwt.quiz.title }}
+                            {{ quiz.title }}
                         </mat-label>
                         <div class="tags" fxLayout="row" fxLayoutGap="0.5rem">
-                            <button mat-flat-button color="accent" *ngFor="let tag of qwt.quiz.tags">
+                            <button mat-flat-button color="accent" *ngFor="let tag of quiz.tags">
                                 {{ tag }}
                             </button>
                         </div>
                     </div>
                     <div matLine fxLayout="row" fxLayoutGap="0.5rem">
-                        <button mat-raised-button color="primary" (click)="onQuizDetails(qwt.quiz)">Details</button>
-                        <div class="placeholder" fxFlex="grow"></div>
-                        <!--TODO: add trial buttons-->
-                        <button mat-raised-button color="primary" *ngFor="let trial of qwt.trials" (click)="onTrialClick(trial)">
-                            Trial {{ trial.trialNo }}
-                        </button>
+                        <button mat-raised-button color="primary" (click)="onEditQuiz(quiz)">Edit</button>
                     </div>
                 </mat-card-content>
             </mat-card>

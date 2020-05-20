@@ -4,6 +4,7 @@ import { User, JobSituation, ICV, UserType } from '../models/user';
 import { IAccountService, LoginResult, LoginError, RegisterResult, RegisterError } from '../interfaces/IAccountService';
 import { ApiService } from './api.service';
 import { HttpHeaders } from '@angular/common/http';
+import { QuizService } from './quiz.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class AccountService implements IAccountService {
   private user: User;
 
   constructor(
-    private apiClient: ApiService
+    private apiClient: ApiService,
+    private quizService: QuizService,
   ) {
     this.user = null;
   }
@@ -27,7 +29,11 @@ export class AccountService implements IAccountService {
 
     this.user = new User(email, password);
 
+    this.user.type = UserType.Admin;
+
     console.warn('login is disabled for development. Enable it before demo');
+
+    this.quizService.loadQuizzes();
 
     return { tag: "value", value: this.user };
 

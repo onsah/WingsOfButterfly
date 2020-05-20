@@ -19,7 +19,9 @@ export class QuizService implements IQuizService {
 
   constructor(
     private apiService: ApiService
-  ) { 
+  ) { }
+
+  public loadQuizzes() {
     // TODO: remove these lines when implemented
     this._tags = [
       'a',
@@ -58,7 +60,7 @@ export class QuizService implements IQuizService {
   get tags() { return this._tags; }
 
   receiveQuizzes(filter: { tags: Tag[], searchText: string } = { tags: [], searchText: '' }) {
-    console.log(`filter: ${filter}`);
+    console.log(`filter: ${JSON.stringify(filter)}`);
 
     let filtered = this.quizzesDataStore
       .filter(q => filter.tags.every(tag => q.tags.includes(tag)))
@@ -72,7 +74,7 @@ export class QuizService implements IQuizService {
    * if the currently loginned account is a developer
    */
   receiveQuizzesOfDev(filter: { tags: Tag[], searchText: string } = { tags: [], searchText: '' }) {
-    console.log(`filter: ${filter}`);
+    console.log(`filter: ${JSON.stringify(filter)}`);
 
     let filtered = this.quizzesWithTrialsStore
       .filter(q => filter.tags.every(tag => q.quiz.tags.includes(tag)))

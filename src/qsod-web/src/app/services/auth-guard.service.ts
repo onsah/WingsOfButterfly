@@ -17,7 +17,7 @@ export class AuthGuardService implements CanActivate {
   canActivate(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): boolean {
     if (this.loginService.isLoggedIn()) {
       return true;
-    }
+    } 
 
     console.log('can\'t enter without logging in!');
     this.router.navigate(['']);

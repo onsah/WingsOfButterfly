@@ -1,50 +1,11 @@
-<div class="content" fxLayout="column"> 
-    <div fxLayout="row" fxLayoutAlign="center" fxFlex="grow">
-        <mat-form-field #unselectedTagsSelect>
-            <mat-label>Add a Tag</mat-label>
-            <mat-select [(value)]="selectedUnselectedTag" (selectionChange)="selectTag($event.value)">
-                <mat-option value='None'>None</mat-option>
-                <mat-option *ngFor="let tag of unselectedTags | async" [value]="tag">
-                    {{ tag }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-        <mat-form-field fxFlex="grow">
-            <mat-label>Search</mat-label>
-            <input matInput [(ngModel)]="searchText" (input)='filter()'>
-        </mat-form-field>
-        <mat-form-field #selectedTagsSelect>
-            <mat-label>Remove a Tag</mat-label>
-            <mat-select [(value)]="selectedSelectedTag" (selectionChange)="unselectTag($event.value)">
-                <mat-option value='None'>None</mat-option>
-                <mat-option *ngFor="let tag of selectedTags | async" [value]="tag">
-                    {{ tag }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>
-    <mat-list class="quiz-list" fxLayoutAlign="start center" fxLayout="column" fxLayoutGap="3.5rem">
-        <mat-list-item class="quiz-list-item" *ngFor="let quiz of quizService.quizzes | async">
-            <mat-card fxFlex="grow">
-                <mat-card-content>
-                    <div matLine fxLayout="row">
-                        <mat-label class="quiz-title">
-                            {{ quiz.title }}
-                        </mat-label>
-                        <div class="tags" fxLayout="row" fxLayoutGap="0.5rem">
-                            <button mat-flat-button color="accent" *ngFor="let tag of quiz.tags">
-                                {{ tag }}
-                            </button>
-                        </div>
-                    </div>
-                    <div matLine fxLayout="row" fxLayoutGap="0.5rem">
-                        <button mat-raised-button color="primary" (click)="onQuizDetails(quiz)">Details</button>
-                        <div class="placeholder"></div>
-                        <mat-label class="no-of-attempts">TODO: # of attempts</mat-label>
-                        <button mat-raised-button color="primary" (click)="onStartQuiz(quiz)">Start!</button>
-                    </div>
-                </mat-card-content>
-            </mat-card>
-        </mat-list-item>
-    </mat-list>
-</div>
+<app-dev-main-page *ngIf="isDeveloper">
+    
+</app-dev-main-page>
+
+<app-admin-main-page *ngIf="isAdmin">
+
+</app-admin-main-page>
+
+<app-company-main-page *ngIf="isCompany">
+    
+</app-company-main-page>

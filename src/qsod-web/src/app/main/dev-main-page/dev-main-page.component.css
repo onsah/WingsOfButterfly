@@ -1,0 +1,28 @@
+.content {
+    width: 40%;
+    margin: 2.5rem auto auto auto;
+}
+
+.header {
+    font-size: 3rem;
+    margin: auto;
+}
+
+.quiz-list {
+    width: 100%;
+    height: 100%;
+}
+
+.quiz-title {
+    font-size: 1.6rem;
+    margin: auto;
+}
+
+.no-of-attempts {
+    margin: auto;
+}
+
+.tags {
+    margin-left: 1.5rem;
+    flex: 1 1 auto;
+}
