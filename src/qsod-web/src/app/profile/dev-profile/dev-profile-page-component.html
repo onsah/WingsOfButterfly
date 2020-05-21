@@ -35,9 +35,49 @@
       <mat-card-title>Residency: {{profile.residency}}</mat-card-title>
     </mat-card>
   </div>
-  <div>
-    <button mat-raised-button type="submit" [routerLink]='["/dev-profile-edit"]'>Edit Profile</button>
+  <div *ngIf ="isCompany" >
+    <mat-form-field>
+      <input matInput placeholder="How many days to answer?">
+    </mat-form-field>
+    <button mat-raised-button type="submit">Send Interview Request</button>
   </div>
 
+  <mat-divider></mat-divider>
+
+  <div *ngIf="isDeveloper">
+    <button mat-raised-button type="submit">Edit Profile</button>
+
+  <mat-divider></mat-divider>
+
+  <h2>Your Interview Requests</h2>
+
+
+    <mat-card class="card" fxLayout="row">
+      <img class="card-img" mat-card-image src="assets/umbrella.jpg">
+      <mat-card-header>
+        <mat-card-title>Company Name</mat-card-title>
+        <mat-card-content>
+        <p>
+          Terrible work hours for so little money.
+        </p>
+          <mat-card-footer> You have # days to answer! </mat-card-footer>
+        </mat-card-content>
+      </mat-card-header>
+    </mat-card>
+
+  <mat-divider></mat-divider>
+
+    <mat-card class="card" fxLayout="row">
+      <img class="card-img" mat-card-image src="assets/umbrella.jpg">
+      <mat-card-header>
+        <mat-card-title>Company Name</mat-card-title>
+        <p>
+          <mat-card-content>Terrible work hours with so little money</mat-card-content>
+          <mat-card-footer> You have # days to answer! </mat-card-footer>
+        </p>
+      </mat-card-header>
+    </mat-card>
+  </div>
 </form>
 </body>
+

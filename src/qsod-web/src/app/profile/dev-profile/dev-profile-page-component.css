@@ -8,4 +8,17 @@
   margin: auto;
 }
 
+mat-form-field {
+  margin-right: 12px;
+}
 
+.card {
+  width: 400px;
+  margin: auto;
+}
+
+.card-img{
+  max-width: 100px;
+  max-height: 100px;
+  margin-left: 0rem;
+}
