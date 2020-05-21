@@ -1,8 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Profile} from '../../models/profile';
 import {AccountService} from '../../services/account.service';
-import {UserType} from '../../models/user';
+import {User, UserType} from '../../models/user';
 
 
 @Component({
@@ -13,13 +12,11 @@ import {UserType} from '../../models/user';
 
 export class DevProfilePageComponent implements OnInit, OnDestroy{
 
-  profile: Profile;
+  profile: User;
 
   constructor( private route: ActivatedRoute,
                private accountService: AccountService
-  ){
-    this.profile = Profile.getDevDefault();
-  }
+  ){}
 
   ngOnInit(): void {
   }

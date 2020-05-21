@@ -1,4 +1,4 @@
-import { User, JobSituation, ICV } from '../models/user';
+import { User } from '../models/user';
 import { Either } from '../utility/Either';
 
 export type LoginResult = Either<User, LoginError>;
@@ -14,10 +14,10 @@ export interface IAccountService {
         email: string,
         password: string,
         username: string,
-        JobSituation: JobSituation,
+        //JobSituation: JobSituation,
         contactInfo: string,
         description?: string,
-        cv?: ICV,
+        //cv?: ICV,
         avatar?: Uint8Array,
     ): Promise<RegisterResult>;
 

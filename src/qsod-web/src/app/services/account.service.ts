@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { User, JobSituation, ICV, UserType } from '../models/user';
+import { User, UserType } from '../models/user';
 import { IAccountService, LoginResult, LoginError, RegisterResult, RegisterError } from '../interfaces/IAccountService';
 import { ApiService } from './api.service';
 import { HttpHeaders } from '@angular/common/http';
@@ -11,7 +11,7 @@ import { QuizService } from './quiz.service';
 })
 // Dummy version
 // TODO: connect to database
-export class AccountService implements IAccountService {
+export class AccountService {
   private user: User;
 
   constructor(
@@ -29,17 +29,17 @@ export class AccountService implements IAccountService {
 
     this.user = new User(email, password);
 
-    this.user.type = UserType.Admin;
+    this.user.role = UserType.Developer;
 
     console.warn('login is disabled for development. Enable it before demo');
 
     this.quizService.loadQuizzes();
 
-    return { tag: "value", value: this.user };
+    return { tag: 'value', value: this.user };
 
     // Commented for development
     /* let response = await this.apiClient.login(email, password);
-    
+
     if (response !== null) {
       this.user = response;
       console.log("user: ", this.user);
@@ -51,7 +51,7 @@ export class AccountService implements IAccountService {
 
   isLoggedIn = (): boolean => this.user !== null;
 
-  getUserType = (): UserType => this.user?.type;
+  getUserType = (): UserType => this.user?.role;
 
   getUsername = (): string => this.user?.username;
 
@@ -63,18 +63,20 @@ export class AccountService implements IAccountService {
     email: string,
     password: string,
     username: string,
-    JobSituation: JobSituation,
+    /*
+    jobSituation: string,
     contactInfo: string,
     description?: string,
-     cv?: ICV, // büyük ihtimal uçacak
-     avatar?: Uint8Array
+    cv?: ICV, // büyük ihtimal uçacak
+    avatar?: Uint8Array
+    */
   ): Promise<RegisterResult> {
-    let response = await this.apiClient.register(email, username, password, UserType.Developer);
+    const response = await this.apiClient.register(email, username, password, UserType.Developer);
 
     if (response) {
-      return { tag: "value", value: true };
+      return { tag: 'value', value: true };
     } else {
-      return { tag: "error", error: RegisterError.Unkown };
+      return { tag: 'error', error: RegisterError.Unkown };
     }
   }
 
@@ -86,11 +88,15 @@ export class AccountService implements IAccountService {
     throw new Error('Method not implemented.');
   }
 
-  updateProfile(email: string, password: string, newProfile: User): boolean {
-    throw new Error('Method not implemented.');
+  async updateProfile(newProfile: User) {
+    newProfile = await this.apiClient.updateProfile(newProfile);
   }
 
   deleteAccount(): Promise<boolean> {
     return this.apiClient.delete(this.user.id);
+  }
+
+  getUser(): User{
+    return this.user;
   }
 }
