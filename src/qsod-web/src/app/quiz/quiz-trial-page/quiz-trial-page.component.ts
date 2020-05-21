@@ -13,9 +13,9 @@ import { DataService } from 'src/app/services/data-service.service';
   styleUrls: ['./quiz-trial-page.component.css']
 })
 export class QuizTrialPageComponent implements OnInit {
-  public quiz: Quiz;
-  public questions: Question[];
-  public trial: Trial;
+  public quiz: Quiz = Quiz.getDefault();
+  public questions: Question[] = [];
+  public trial: Trial = Trial.getDefault();
 
   constructor(
     private dialog: MatDialog,
@@ -25,7 +25,7 @@ export class QuizTrialPageComponent implements OnInit {
   ngOnInit(): void {
     console.warn('Retrieve from the service');
 
-    this.quiz = Quiz.getDefault();
+    /* this.quiz = Quiz.getDefault();
     this.questions = [
       Question.getDefault(),
       Question.getDefault(),
@@ -33,11 +33,11 @@ export class QuizTrialPageComponent implements OnInit {
       Question.getDefault(),
       Question.getDefault(),
     ];
-    this.trial = Trial.getDefault();
+    this.trial = Trial.getDefault(); */
 
-    /* this.quiz = this.dataService.quiz;
+    this.quiz = this.dataService.quiz;
     this.questions = this.dataService.questions;
-    this.trial = this.dataService.trial; */
+    this.trial = this.dataService.trial;
   }
 
   get successPercentage() {
@@ -45,7 +45,7 @@ export class QuizTrialPageComponent implements OnInit {
   }
 
   isQuestionCorrect(index: number) {
-    return this.questions[index].correctOptions === this.trial.choosenOptions[index];
+    return Helper.arrayToOption(this.questions[index].correctOptions) === Helper.arrayToOption(this.trial.choosenOptions[index]);
   }
 
   showQuestionDetails(question: Question, choosenOption: boolean[], index: number) {
