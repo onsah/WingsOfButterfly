@@ -1,1 +1,77 @@
-<p>quiz-create works!</p>
+<div class="content" fxLayout="column">
+    <div fxLayout="row">
+        <mat-form-field>
+            <mat-label>Quiz Title</mat-label>
+            <input matInput [(ngModel)]="quiz.title">
+        </mat-form-field>
+        <div fxFlex="grow"></div>
+        <div fxLayout="column">
+            <mat-form-field #unselectedTagsSelect>
+                <mat-label>Add a Tag</mat-label>
+                <mat-select class="unselected-tag-select" (selectionChange)="addTag($event.value)">
+                    <mat-option value='None'>None</mat-option>
+                    <mat-option *ngFor="let tag of unselectedTags | async" [value]="tag">
+                        {{ tag }}
+                    </mat-option>
+                </mat-select> 
+            </mat-form-field>
+            <mat-form-field #selectedTagsSelect>
+                <mat-label>Remove a Tag</mat-label>
+                <mat-select (selectionChange)="removeTag($event.value)">
+                    <mat-option value='None'>None</mat-option>
+                    <mat-option *ngFor="let tag of selectedTags | async" [value]="tag">
+                        {{ tag }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <mat-label class="question-list-label">Questions</mat-label>
+    <mat-divider class="divider"></mat-divider>
+    <mat-list class="question-list" fxLayoutAlign="start center" fxLayout="column" fxLayoutGap="5rem">
+        <mat-list-item class="question-list-item" *ngFor="let question of questions; let i = index">
+            <mat-card fxFlex="grow">
+                <mat-card-content>
+                    <mat-form-field matLine>
+                        <mat-label>Question Description</mat-label>
+                        <textarea matInput cdkTextareaAutosize class="question-description" [(ngModel)]="question.description"></textarea>
+                    </mat-form-field>
+                    <div matLine fxLayout="row">
+                        <div fxLayout="column">
+                            <div fxLayout="row" *ngFor="let option of question.options; let j = index">
+                                <mat-checkbox [(ngModel)]="question.correctOptionAsArray[j]"></mat-checkbox>
+                                <input matInput [(ngModel)]="question.options[j]">
+                            </div>
+                        </div>
+                        <div fxFlex="grow"></div>
+                        <div fxLayout="column">
+                            <div fxFlex="grow"></div>
+                            <button mat-raised-button class="remove-button" color="warn">Remove</button>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            
+            <!--
+            <div class="question-edit" fxLayout="column" fxFlex="grow">
+                <textarea class="question-description" [(ngModel)]="question.description"></textarea>
+                <div fxLayout="row" fxFlex="grow">
+                    <div fxLayout="column">
+                        <div fxLayout="row" *ngFor="let option of question.options; let j = index">
+                            <mat-checkbox [(ngModel)]="question.correctOptionAsArray[j]"></mat-checkbox>
+                            <input matInput [(ngModel)]="question.options[j]">
+                        </div>
+                    </div>
+                    <div fxFlex="grow"></div>
+                    <button mat-raised-button color="warn">Remove</button>
+                </div>
+            </div>
+            -->
+        </mat-list-item>
+        <mat-list-item>
+            <button mat-raised-button color="primary" class="add-question-button">
+                Add new Question
+            </button>
+        </mat-list-item>
+    </mat-list>
+</div>
