@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Profile} from '../../models/profile';
 import {AccountService} from '../../services/account.service';
+import {UserType} from '../../models/user';
 
 
 @Component({
@@ -24,6 +25,18 @@ export class DevProfilePageComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy(): void {
+  }
+
+  get isDeveloper() {
+    return this.accountService.getUserType() === UserType.Developer;
+  }
+
+  get isAdmin() {
+    return this.accountService.getUserType() === UserType.Admin;
+  }
+
+  get isCompany() {
+    return this.accountService.getUserType() === UserType.Company;
   }
 
 }
