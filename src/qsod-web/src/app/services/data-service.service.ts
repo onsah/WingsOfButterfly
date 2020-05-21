@@ -45,7 +45,7 @@ export class DataService {
     }
 
     if (this._questions === null) {
-      this._questions = await this.quizService.receiveQuestions(this.quiz);
+      this._questions = await this.quizService.getQuestions(this.quiz);
     }
 
     return this._questions;

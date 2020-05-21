@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Trial } from 'src/app/models/trial';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data-service.service';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-trials',
@@ -26,6 +27,7 @@ export class TrialsComponent implements OnInit {
 
   constructor(
     public quizService: QuizService,
+    private accountService: AccountService,
     private dataService: DataService,
     private dialog: MatDialog,
     private router: Router,
@@ -38,6 +40,8 @@ export class TrialsComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedTags.subscribe(_ => this.filter());
+
+    this.quizService.updateTrials(this.accountService.getID());
   }
 
   selectTag(tag: Tag): boolean {
@@ -90,14 +94,14 @@ export class TrialsComponent implements OnInit {
   onTrialClick(quiz: Quiz, trial: Trial) {
     console.warn('pass the trial and the quiz data to the dataService');
 
-    /* this.quizService.getQuestionsOfQuiz(quiz.id)
+    this.quizService.getQuestions(quiz)
       .then(questions => {
         console.log('questions: ', questions);
 
         this.dataService.setAll(trial, quiz, questions);
 
         this.router.navigate(['quiz-trial']);
-      }); */
+      });
   }
 
   filter() {

@@ -5,6 +5,7 @@ import { Tag, Duration, Difficulty } from '../models/types';
 import { Question, Option } from '../models/question';
 import { Quiz, QuizType } from '../models/quiz';
 import { Trial } from '../models/trial';
+import { Helper } from '../utility/helper';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class ApiService {
   readonly QUIZ_ENDPOINT = this.URL + ":" + this.PORT + this.BASE_ENDPOINT + "/quiz";
   readonly TAG_ENDPOINT = this.URL + ":" + this.PORT + this.BASE_ENDPOINT + "/tag";
   readonly TRIAL_ENDPOINT = this.URL + ":" + this.PORT + this.BASE_ENDPOINT + "/trial";
+  readonly CONSISTS_ENDPOINT = this.URL + ":" + this.PORT + this.BASE_ENDPOINT + "/cons";
 
   constructor(
     private http: HttpClient
@@ -85,6 +87,31 @@ export class ApiService {
     ));
   }
 
+  async getQuestions(quizID: number): Promise<Question[]> {
+    let url = this.CONSISTS_ENDPOINT + "/" + quizID;
+
+    let resp = await this.get<{
+      description: string,
+      id: number,
+      difficulty: Difficulty,
+      correct_option: Option,
+      optionA: string,
+      optionB: string,
+      optionC: string,
+      optionD: string,
+    }[]>(url, {});
+
+    console.log('questions: ', resp);
+
+    return resp.map(q => new Question(
+      q.id, 
+      q.description,
+      q.difficulty,
+      q.correct_option,
+      [ q.optionA, q.optionB, q.optionC, q.optionD ],
+    ));
+  }
+
   async getAllTrialsDev(id: number): Promise<{ quiz: Quiz, trials: Trial[] }[]> {
     let url = this.TRIAL_ENDPOINT + "/" + id;
 
@@ -123,7 +150,7 @@ export class ApiService {
     return responseMapped;
   }
 
-  async createQuizByAdmin(title: string, tags: Tag[], duration: Duration, difficulty: Difficulty, questions: Question[]) {
+  async createQuizByAdmin(adminId: number, title: string, tags: Tag[], duration: Duration, difficulty: Difficulty, questions: Question[]) {
     let url = this.QUIZ_ENDPOINT;
 
     let body = {
@@ -131,16 +158,39 @@ export class ApiService {
       difficulty,
       tags,
       duration,
-      questions
+      curatedId: adminId,
+      questionDtos: questions.map(q => {
+        return {
+          description: q.description,
+          difficulty: q.difficulty,
+          correct_option: Helper.arrayToOption(q.correctOptions),
+          optionA: q.options[0],
+          optionB: q.options[1],
+          optionC: q.options[2],
+          optionD: q.options[3],
+        };
+      }),
     };
+
+    console.log('body: ', body);
 
     let resp = await this.post(url, body, {});
 
     console.log('response: ', resp);
 
-    console.warn('check response');
-
     return true;
+  }
+
+  async createTrial(devId: number, quizId: number, choosenOptions: Option[]) {
+    let url = this.TRIAL_ENDPOINT;
+
+    let body = {
+      devId,
+      quizId,
+      choosenOptions
+    };
+
+    return await this.post(url, body, {});
   }
 
   /**

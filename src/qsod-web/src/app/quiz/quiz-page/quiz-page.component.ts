@@ -6,6 +6,8 @@ import { DataService } from 'src/app/services/data-service.service';
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { QuizService } from 'src/app/services/quiz.service';
+import { AccountService } from 'src/app/services/account.service';
 
 
 @Component({
@@ -37,6 +39,8 @@ export class QuizPageComponent implements OnInit, OnDestroy {
     private dataService: DataService,
     private snackBar: MatSnackBar,
     private router: Router,
+    private quizService: QuizService,
+    private accountService: AccountService,
   ) {
     this.quiz = dataService.quiz;
 
@@ -99,7 +103,9 @@ export class QuizPageComponent implements OnInit, OnDestroy {
 
   private finishQuiz() {
     // Navigate to report page
-    // TODO: inject the quiz result to dataService
+    console.log('selected options: ', this.selectedOptions);
+
+    this.quizService.submitTrial(this.quiz.id, this.accountService.getID(), this.selectedOptions);
 
     this.router.navigate(['quiz-report']);   
   }

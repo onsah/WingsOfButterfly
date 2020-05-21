@@ -14,7 +14,7 @@ import { AccountService } from './account.service';
 export class QuizService implements IQuizService {
   private tagsStore: Tag[] = [];
   private quizzesDataStore: Quiz[] = [];
-  private quizzesWithTrialsStore: { quiz: Quiz, trials: Trial[] }[];
+  private quizzesWithTrialsStore: { quiz: Quiz, trials: Trial[] }[] = [];
   private _tags = new BehaviorSubject<Tag[]>(this.tagsStore);
   private _quizzes = new BehaviorSubject<Quiz[]>([]);
   private _quizzesWithTrials = new BehaviorSubject<{ quiz: Quiz, trials: Trial[] }[]>([]);
@@ -32,16 +32,8 @@ export class QuizService implements IQuizService {
     this.tagsStore = await this.apiService.getAllTags();
     this._tags.next(this.tagsStore);
 
-    this.quizzesDataStore = await this.apiService.getAllQuizzes();
-    this._quizzes.next(this.quizzesDataStore);
-
-    this.quizzesWithTrialsStore = await this.apiService.getAllTrialsDev(id);
-    // Add tags
-    for (let q of this.quizzesWithTrialsStore) {
-      // Request tags of the specific quiz
-    }
-    console.log('quizzes with trials: ', this.quizzesWithTrialsStore);
-    this._quizzesWithTrials.next(this.quizzesWithTrialsStore);
+    this.updateQuizzes();
+    this.updateTrials(id);
 
     /* this.addQuiz(Quiz.withTags([
       'a', 'b'
@@ -72,8 +64,29 @@ export class QuizService implements IQuizService {
   get quizzesWithTrials() { return this._quizzesWithTrials.asObservable(); }
   get tags() { return this._tags.asObservable(); }
 
-  getQuestionsOfQuiz(quizID: number): Promise<Question[]> {
-    throw new Error('Not implemented');
+   updateQuizzes() {
+    console.log('updating quizzess...');
+
+    this.apiService.getAllQuizzes().then(quizzes => {
+      console.log(quizzes);
+      this.quizzesDataStore = quizzes;
+      this._quizzes.next(this.quizzesDataStore);
+    });
+  }
+
+  updateTrials(id: number) {
+    console.log('updating trials...');
+
+    this.apiService.getAllTrialsDev(id)
+      .then(trials => {
+        this.quizzesWithTrialsStore = trials;
+        // Add tags
+        for (let q of this.quizzesWithTrialsStore) {
+          // Request tags of the specific quiz
+        }
+        console.log('quizzes with trials: ', this.quizzesWithTrialsStore);
+        this._quizzesWithTrials.next(this.quizzesWithTrialsStore);
+      });
   }
 
   receiveQuizzes(filter: { tags: Tag[], searchText: string } = { tags: [], searchText: '' }) {
@@ -114,20 +127,16 @@ export class QuizService implements IQuizService {
     this._quizzesWithTrials.next(filtered);
   }
 
-  async createQuiz(title: string, tags: Tag[], duration: Duration, difficulty: Difficulty, questions: Question[]): Promise<boolean> {
-    return await this.apiService.createQuizByAdmin(title, tags, duration, difficulty, questions);
+  async createQuiz(adminId: number, title: string, tags: Tag[], duration: Duration, difficulty: Difficulty, questions: Question[]): Promise<boolean> {
+    return await this.apiService.createQuizByAdmin(adminId, title, tags, duration, difficulty, questions);
   }
 
-  async receiveQuestions(quiz: Quiz): Promise<Question[]> {
-    console.warn('Connect to the database. Currently sending mock questions');
+  async getQuestions(quiz: Quiz): Promise<Question[]> {
+    return await this.apiService.getQuestions(quiz.id);
+  }
 
-    return [
-      Question.getDefault(),
-      Question.getDefault(1),
-      Question.getDefault(2),
-      Question.getDefault(3),
-      Question.getDefault(4),
-    ];
+  async submitTrial(quizID: number, devID: number, choosenOptions: Option[]) {
+    return await this.apiService.createTrial(devID, quizID, choosenOptions);
   }
 
   // Used for debug purposes

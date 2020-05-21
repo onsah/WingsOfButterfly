@@ -7,6 +7,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { QuizService } from 'src/app/services/quiz.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-quiz-create',
@@ -29,6 +30,7 @@ export class QuizCreateComponent implements OnInit {
     private route: ActivatedRoute,
     private quizService: QuizService,
     private snackBar: MatSnackBar,
+    private accountService: AccountService,
   ) { }
 
   ngOnInit(): void {
@@ -124,6 +126,7 @@ export class QuizCreateComponent implements OnInit {
     let tags = this.selectedTagsStore;
 
     this.quizService.createQuiz(
+      this.accountService.getID(),
       this.quiz.title,
       tags,
       600,

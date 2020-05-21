@@ -47,6 +47,8 @@ export class DevMainPageComponent implements OnInit {
   ngOnInit(): void {
     // Automatically filters by tags when selected tag changes
     this.selectedTags.subscribe(_ => this.filter());
+
+    this.quizService.updateQuizzes();
   }
 
   selectTag(tag: Tag): boolean {
