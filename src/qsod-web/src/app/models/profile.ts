@@ -3,10 +3,10 @@ import {DevID, ProfileType} from './types';
 export class Profile{
 
   name: string;
-  // avatar
+  //avatar: string;
   email: string;
-  // CV
-  // phone
+  cv: string;
+  phone: string;
   nationality: string;
   residency: string;
   jobStatus: string;
@@ -14,12 +14,14 @@ export class Profile{
 
   static getDevDefault(): Profile {
     return {
-      name: "Rafi",
-      email: "excalibur42@gmail.com",
-      nationality: "Turkey",
-      residency: "Konya, Turkey",
-      jobStatus: "Looking for a job",
-      description: "This is a placeholder."
+      name: "Name",
+      email: "Email",
+      cv: "cvURL",
+      phone: "Phone",
+      nationality: "Nationality",
+      residency: "Residency",
+      jobStatus: "Job Status",
+      description: "Description",
     };
   }
 }

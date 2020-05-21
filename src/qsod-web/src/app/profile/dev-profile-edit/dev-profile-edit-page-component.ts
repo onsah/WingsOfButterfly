@@ -1,16 +1,16 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Profile} from '../models/profile';
-import {AccountService} from '../services/account.service';
+import {Profile} from '../../models/profile';
+import {AccountService} from '../../services/account.service';
 
 
 @Component({
-  selector: 'dev-profile-page-component',
-  templateUrl: './dev-profile-page-component.html',
-  styleUrls: ['./dev-profile-page-component.css']
+  selector: 'dev-profile-edit-page-component',
+  templateUrl: './dev-profile-edit-page-component.html',
+  styleUrls: ['./dev-profile-edit-page-component.css']
 })
 
-export class DevProfilePageComponent implements OnInit, OnDestroy{
+export class DevProfileEditPageComponent implements OnInit, OnDestroy{
 
   profile: Profile;
 

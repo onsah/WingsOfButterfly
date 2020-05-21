@@ -1,0 +1,43 @@
+<body class="profile-body">
+<h2>Edit Profile</h2>
+
+<div class="profile-img">
+  <img mat-card-image src="assets/placeholder.jpg">
+</div>
+<form>
+  <div>
+  <mat-card>
+    <mat-card-title>Name: {{profile.name}}</mat-card-title>
+  </mat-card>
+  </div>
+  <div>
+    <mat-card>
+      <mat-card-title>Email: {{profile.email}}</mat-card-title>
+    </mat-card>
+  </div>
+  <div>
+    <mat-card>
+      <mat-card-title>CV: {{profile.cv}}</mat-card-title>
+    </mat-card>
+  </div>
+  <div>
+    <mat-card>
+      <mat-card-title>Phone: {{profile.phone}}</mat-card-title>
+    </mat-card>
+  </div>
+  <div>
+    <mat-card>
+      <mat-card-title>Nationality: {{profile.nationality}}</mat-card-title>
+    </mat-card>
+  </div>
+  <div>
+    <mat-card>
+      <mat-card-title>Residency: {{profile.residency}}</mat-card-title>
+    </mat-card>
+  </div>
+  <div>
+    <button mat-raised-button type="submit">Edit Profile</button>
+  </div>
+
+</form>
+</body>
