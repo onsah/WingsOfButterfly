@@ -11,7 +11,7 @@
       My Trials
     </a>
 
-    <a mat-button *ngIf="isLoggedIn()">
+    <a mat-button *ngIf="isLoggedIn()" routerLink="/dev-profile-page">
       {{ getUsername() }}'s Profile
     </a>
   
