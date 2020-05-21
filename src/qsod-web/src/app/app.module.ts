@@ -44,6 +44,7 @@ import { DevProfileEditPageComponent} from './profile/dev-profile-edit/dev-profi
 import {ProfilePageComponent} from './profile/profile-page/profile-page.component';
 import {CompanyProfilePageComponent} from './profile/company-profile/company-profile-page.component';
 import {CompanyProfileEditPageComponent} from './profile/company-profile-edit/company-profile-edit-page.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,7 @@ import {CompanyProfileEditPageComponent} from './profile/company-profile-edit/co
     DevProfileEditPageComponent,
     CompanyProfilePageComponent,
     ProfilePageComponent,
-    CompanyProfileEditPageComponent
+    CompanyProfileEditPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -91,8 +92,13 @@ import {CompanyProfileEditPageComponent} from './profile/company-profile-edit/co
     FormsModule,
     MatProgressBarModule,
     MatDialogModule,
+    MatDatepickerModule,
+  ],
+  exports: [
+    MatDatepickerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+

@@ -26,6 +26,4 @@ export class DevProfilePageComponent implements OnInit, OnDestroy{
   ngOnDestroy(): void {
   }
 
-
-
 }
