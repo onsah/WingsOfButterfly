@@ -11,7 +11,8 @@ import { TrialsComponent } from './quiz/trials/trials.component';
 import { LoginDirectService } from './services/login-direct.service';
 import { QuizCreateComponent } from './quiz/quiz-create/quiz-create.component';
 import { QuizTrialPageComponent } from './quiz/quiz-trial-page/quiz-trial-page.component';
-import { DevProfilePageComponent } from './profile/dev-profile-page-component';
+import { DevProfilePageComponent } from './profile/dev-profile/dev-profile-page-component';
+import {DevProfileEditPageComponent} from './profile/dev-profile-edit/dev-profile-edit-page-component';
 
 const routes: Routes = [
   {
@@ -61,6 +62,10 @@ const routes: Routes = [
     path: 'dev-profile-page',
     component: DevProfilePageComponent,
   },
+  {
+    path: 'dev-profile-edit',
+    component: DevProfileEditPageComponent,
+  }
 ];
 
 @NgModule({

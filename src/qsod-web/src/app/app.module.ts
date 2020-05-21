@@ -39,7 +39,11 @@ import { QuizCreateComponent } from './quiz/quiz-create/quiz-create.component';
 import { QuizTrialPageComponent } from './quiz/quiz-trial-page/quiz-trial-page.component';
 import { MinuteSecondsPipe } from './utility/date-pipe.pipe';
 import { QuestionTrialDialogComponent } from './quiz/quiz-trial-page/question-trial-dialog/question-trial-dialog.component';
-import { DevProfilePageComponent } from './profile/dev-profile-page-component';
+import { DevProfilePageComponent } from './profile/dev-profile/dev-profile-page-component';
+import { DevProfileEditPageComponent} from './profile/dev-profile-edit/dev-profile-edit-page-component';
+import {ProfilePageComponent} from './profile/profile-page/profile-page.component';
+import {CompanyProfilePageComponent} from './profile/company-profile/company-profile-page.component';
+import {CompanyProfileEditPageComponent} from './profile/company-profile-edit/company-profile-edit-page.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +64,10 @@ import { DevProfilePageComponent } from './profile/dev-profile-page-component';
     MinuteSecondsPipe,
     QuestionTrialDialogComponent,
     DevProfilePageComponent,
+    DevProfileEditPageComponent,
+    CompanyProfilePageComponent,
+    ProfilePageComponent,
+    CompanyProfileEditPageComponent
   ],
   imports: [
     BrowserModule,
