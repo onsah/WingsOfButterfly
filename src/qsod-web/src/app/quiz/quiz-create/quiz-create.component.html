@@ -28,7 +28,7 @@
     </div>
     <mat-label class="question-list-label">Questions</mat-label>
     <mat-divider class="divider"></mat-divider>
-    <mat-list class="question-list" fxLayoutAlign="start center" fxLayout="column" fxLayoutGap="5rem">
+    <mat-list class="question-list" fxLayoutAlign="start center" fxLayout="column">
         <mat-list-item class="question-list-item" *ngFor="let question of questions; let i = index">
             <mat-card fxFlex="grow">
                 <mat-card-content>
@@ -69,8 +69,14 @@
             -->
         </mat-list-item>
         <mat-list-item>
-            <button mat-raised-button color="primary" class="add-question-button">
+            <button mat-raised-button color="accent" class="add-question-button">
                 Add new Question
+            </button>
+        </mat-list-item>
+
+        <mat-list-item>
+            <button mat-raised-button color="primary" class="submit-question-button">
+                Submit Changes
             </button>
         </mat-list-item>
     </mat-list>

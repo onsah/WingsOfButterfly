@@ -18,7 +18,7 @@
 }
 
 .question-list-item {
-    margin: 2.5rem auto;
+    margin: 5rem auto;
 }
 
 .question-description {
@@ -27,5 +27,9 @@
 }
 
 .add-question-button {
+    margin: auto;
+}
+
+.submit-question-button {
     margin: auto;
 }
