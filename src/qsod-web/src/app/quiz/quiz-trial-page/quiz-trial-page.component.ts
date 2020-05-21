@@ -5,6 +5,7 @@ import { Question, Option } from 'src/app/models/question';
 import { MatDialog } from '@angular/material/dialog';
 import { QuestionTrialDialogComponent } from './question-trial-dialog/question-trial-dialog.component';
 import { Helper } from 'src/app/utility/helper';
+import { DataService } from 'src/app/services/data-service.service';
 
 @Component({
   selector: 'app-quiz-trial-page',
@@ -18,6 +19,7 @@ export class QuizTrialPageComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
+    private dataService: DataService,
   ) { }
 
   ngOnInit(): void {
@@ -32,6 +34,10 @@ export class QuizTrialPageComponent implements OnInit {
       Question.getDefault(),
     ];
     this.trial = Trial.getDefault();
+
+    /* this.quiz = this.dataService.quiz;
+    this.questions = this.dataService.questions;
+    this.trial = this.dataService.trial; */
   }
 
   get successPercentage() {

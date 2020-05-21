@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Quiz, QuizType } from 'src/app/models/quiz';
 import { Question } from 'src/app/models/question';
-import { Tag } from 'src/app/models/types';
+import { Tag, Difficulty } from 'src/app/models/types';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { QuizService } from 'src/app/services/quiz.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-quiz-create',
@@ -27,11 +28,12 @@ export class QuizCreateComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private quizService: QuizService,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
 
-    this.unselectedTagsStore = this.quizService.tags;
+    this.quizService.tags.subscribe(tags => this.unselectedTagsStore = tags);
     this._unselectedTags.next(this.unselectedTagsStore);
 
     this.route.paramMap.subscribe(params => {
@@ -96,10 +98,42 @@ export class QuizCreateComponent implements OnInit {
   onCreateQuiz() {
     console.log(this.quiz);
     console.log(this.questions);
+
+    if (this.quiz.title === '') {
+      this.showError('title is empty');
+      return;
+    }
+    
+    for (let question of this.questions) {
+      if (question.description === '') {
+        this.showError('question description is empty');
+        return;
+      }
+      if (question.correctOptions === [false, false, false, false]) {
+        this.showError('question must have a correct answer');
+        return;
+      }
+      for (let opt of question.options) {
+        if (opt === '') {
+          this.showError('question option can\'t be empty');
+          return;
+        }
+      }
+    }
+
+    let tags = this.selectedTagsStore;
+
+    this.quizService.createQuiz(
+      this.quiz.title,
+      tags,
+      600,
+      this.quiz.difficulty,
+      this.questions
+    );
   }
 
-  onSubmit(form: {}) {
-
+  private showError(msg: string) {
+    this.snackBar.open(msg);
   }
 
   // https://stackoverflow.com/questions/42322968/angular2-dynamic-input-field-lose-focus-when-input-changes

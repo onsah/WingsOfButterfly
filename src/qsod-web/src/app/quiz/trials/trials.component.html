@@ -41,7 +41,7 @@
                         <button mat-raised-button color="primary" (click)="onQuizDetails(qwt.quiz)">Details</button>
                         <div class="placeholder" fxFlex="grow"></div>
                         <!--TODO: add trial buttons-->
-                        <button mat-raised-button color="primary" *ngFor="let trial of qwt.trials" (click)="onTrialClick(trial)">
+                        <button mat-raised-button color="primary" *ngFor="let trial of qwt.trials" (click)="onTrialClick(qwt.quiz, trial)">
                             Trial {{ trial.trialNo }}
                         </button>
                     </div>

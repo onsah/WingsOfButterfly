@@ -1,4 +1,5 @@
 import { Option } from '../models/question';
+import { QuizType } from '../models/quiz';
 
 export class Helper {
     static optionsAsArray(option: Option): boolean[] {

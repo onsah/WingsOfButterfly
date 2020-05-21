@@ -29,8 +29,11 @@ export class DevMainPageComponent implements OnInit {
     private dataService: DataService,
     private dialog: MatDialog,
   ) { 
-    this.unselectedTagsStore = quizService.tags;
-    this._unselectedTags.next(this.unselectedTagsStore);
+    quizService.tags.subscribe(tags => {
+      console.log('tags: ', tags);
+      this.unselectedTagsStore = tags
+      this._unselectedTags.next(this.unselectedTagsStore);
+    });
   }
 
   get unselectedTags(): Observable<Tag[]> {

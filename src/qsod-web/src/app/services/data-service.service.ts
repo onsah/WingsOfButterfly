@@ -4,6 +4,7 @@ import { Question } from '../models/question';
 import { QuizService } from './quiz.service';
 import {Profile} from '../models/profile';
 import {ProfileService} from './profile.service';
+import { Trial } from '../models/trial';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import {ProfileService} from './profile.service';
 export class DataService {
   private _quiz: Quiz;
   private _questions: Question[];
+  private _trial: Trial;
 
   private _profile: Profile;
 
@@ -18,6 +20,15 @@ export class DataService {
   set quiz(quiz: Quiz) {
     this._quiz = quiz;
     this._questions = null;
+  }
+  get questions() { return this._questions; }
+  set questions(questions: Question[]) { this._questions = questions; }
+  get trial() { return this._trial; }
+  
+  setAll(trial: Trial, quiz: Quiz, questions: Question[]) {
+    this._trial = trial;
+    this._quiz = quiz;
+    this._questions = questions;
   }
 
   constructor(

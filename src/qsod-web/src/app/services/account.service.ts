@@ -43,6 +43,8 @@ export class AccountService implements IAccountService {
       if (response !== null) {
         this.user = response;
         console.log("user: ", this.user);
+        await this.quizService.loadQuizzes(this.user.id);
+        
         return { tag:"value", value: this.user };
       } else {
         return { tag: "error", error: LoginError.Unkown };
@@ -57,6 +59,8 @@ export class AccountService implements IAccountService {
   getUserType = (): UserType => this.user?.role;
 
   getUsername = (): string => this.user?.username;
+
+  getID = (): number => this.user?.id;
 
   logout(): void {
     throw new Error('Method not implemented.');

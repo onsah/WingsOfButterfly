@@ -2,35 +2,48 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Quiz } from '../models/quiz';
 import { IQuizService } from '../interfaces/IQuizService';
-import { Tag, Difficulty, DevID } from '../models/types';
+import { Tag, Difficulty, DevID, Duration } from '../models/types';
 import { Question, Option } from '../models/question';
 import { ApiService } from './api.service';
 import { Trial } from '../models/trial';
+import { AccountService } from './account.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class QuizService implements IQuizService {
-  private _tags: Tag[] = [];
+  private tagsStore: Tag[] = [];
   private quizzesDataStore: Quiz[] = [];
   private quizzesWithTrialsStore: { quiz: Quiz, trials: Trial[] }[];
+  private _tags = new BehaviorSubject<Tag[]>(this.tagsStore);
   private _quizzes = new BehaviorSubject<Quiz[]>([]);
   private _quizzesWithTrials = new BehaviorSubject<{ quiz: Quiz, trials: Trial[] }[]>([]);
 
   constructor(
-    private apiService: ApiService
+    private apiService: ApiService,
   ) { }
 
-  public loadQuizzes() {
+  /**
+   * Load all the data
+   * @id account id
+   */
+  public async loadQuizzes(id: number) {
     // TODO: remove these lines when implemented
-    this._tags = [
-      'a',
-      'b',
-      'c',
-      'd'
-    ];
+    this.tagsStore = await this.apiService.getAllTags();
+    this._tags.next(this.tagsStore);
 
-    this.addQuiz(Quiz.withTags([
+    this.quizzesDataStore = await this.apiService.getAllQuizzes();
+    this._quizzes.next(this.quizzesDataStore);
+
+    this.quizzesWithTrialsStore = await this.apiService.getAllTrialsDev(id);
+    // Add tags
+    for (let q of this.quizzesWithTrialsStore) {
+      // Request tags of the specific quiz
+    }
+    console.log('quizzes with trials: ', this.quizzesWithTrialsStore);
+    this._quizzesWithTrials.next(this.quizzesWithTrialsStore);
+
+    /* this.addQuiz(Quiz.withTags([
       'a', 'b'
     ]));
     this.addQuiz(Quiz.withTags([
@@ -50,14 +63,18 @@ export class QuizService implements IQuizService {
       { quiz: Quiz.withTags(['a', 'b']), trials: [ Trial.withTrialNo(1), Trial.withTrialNo(2) ] },
       { quiz: Quiz.withTags(['a']), trials: [ Trial.withTrialNo(1), Trial.withTrialNo(2), Trial.withTrialNo(3) ] },
     ];
-    this._quizzesWithTrials.next(this.quizzesWithTrialsStore);
+    this._quizzesWithTrials.next(this.quizzesWithTrialsStore); */
 
     console.warn('TODO: make async requests to the database for all quizzes and the quizzes with trials');
   }
 
   get quizzes() { return this._quizzes.asObservable(); }
   get quizzesWithTrials() { return this._quizzesWithTrials.asObservable(); }
-  get tags() { return this._tags; }
+  get tags() { return this._tags.asObservable(); }
+
+  getQuestionsOfQuiz(quizID: number): Promise<Question[]> {
+    throw new Error('Not implemented');
+  }
 
   receiveQuizzes(filter: { tags: Tag[], searchText: string } = { tags: [], searchText: '' }) {
     console.log(`filter: ${JSON.stringify(filter)}`);
@@ -95,6 +112,10 @@ export class QuizService implements IQuizService {
     console.warn('implement by api');
 
     this._quizzesWithTrials.next(filtered);
+  }
+
+  async createQuiz(title: string, tags: Tag[], duration: Duration, difficulty: Difficulty, questions: Question[]): Promise<boolean> {
+    return await this.apiService.createQuizByAdmin(title, tags, duration, difficulty, questions);
   }
 
   async receiveQuestions(quiz: Quiz): Promise<Question[]> {

@@ -29,8 +29,10 @@ export class AdminMainPageComponent implements OnInit {
     private dataService: DataService,
     private dialog: MatDialog,
   ) { 
-    this.unselectedTagsStore = quizService.tags;
-    this._unselectedTags.next(this.unselectedTagsStore);
+    quizService.tags.subscribe(tags => {
+      this.unselectedTagsStore = tags
+      this._unselectedTags.next(this.unselectedTagsStore);
+    });
   }
 
   get unselectedTags(): Observable<Tag[]> {
@@ -45,7 +47,7 @@ export class AdminMainPageComponent implements OnInit {
     // Automatically filters by tags when selected tag changes
     this.selectedTags.subscribe(_ => this.filter());
 
-    this.quizService.loadQuizzes();
+    // this.quizService.loadQuizzes();
   }
 
   selectTag(tag: Tag): boolean {
