@@ -28,13 +28,13 @@ export class ApiService {
 
   /**
    * format is /user/{email}/{password}
-   * @param email 
-   * @param password 
+   * @param email
+   * @param password
    */
   async login(email: string, password: string) {
       let url = this.LOGIN_ENDPOINT + "/" + email + "/" + password;
-      let options =  { 
-        observe: 'body', 
+      let options =  {
+        observe: 'body',
         responseType: 'json',
       };
 
@@ -193,6 +193,27 @@ export class ApiService {
     return await this.post(url, body, {});
   }
 
+  async updateProfile(profile: any): Promise<User>{
+
+    let url = this.LOGIN_ENDPOINT + "/" + profile.id;
+
+    let body = {
+      username: profile.username,
+      email: profile.email,
+      password: profile.password,
+      nameSurname: profile.username,
+      nationality: profile.nationality,
+      description: profile.description,
+      role: profile.role,
+      contactInfo: profile.phone,
+      situation: profile.jobStatus,
+      image: profile.avatar,
+      bannedBy: profile.bannedBy,
+      cv: profile.cv
+    }
+    return await this.put(url, body, {});
+  }
+
   /**
    * Deletes the account
    */
@@ -212,5 +233,11 @@ export class ApiService {
     console.log(`making get request ${url}`);
 
     return this.http.get<T>(url, options).toPromise();
+  };
+
+  private put = async <T> (url: string, body: {}, options: {}): Promise<T> => {
+    console.log(`making put request ${url}`);
+
+    return this.http.put<T>(url, body, options).toPromise();
   };
 }

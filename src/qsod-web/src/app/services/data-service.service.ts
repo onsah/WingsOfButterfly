@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { Quiz } from '../models/quiz';
 import { Question } from '../models/question';
 import { QuizService } from './quiz.service';
-import {Profile} from '../models/profile';
-import {ProfileService} from './profile.service';
 import { Trial } from '../models/trial';
 
 @Injectable({
@@ -13,8 +11,6 @@ export class DataService {
   private _quiz: Quiz;
   private _questions: Question[];
   private _trial: Trial;
-
-  private _profile: Profile;
 
   get quiz() { return this._quiz; }
   set quiz(quiz: Quiz) {
@@ -33,7 +29,6 @@ export class DataService {
 
   constructor(
     private quizService: QuizService,
-    private profileService: ProfileService,
   ) { }
 
   /**
@@ -49,12 +44,5 @@ export class DataService {
     }
 
     return this._questions;
-  }
-
-  get profile(){
-    return this._profile;
-  }
-  set profile( profile: Profile ){
-    this._profile = profile;
   }
 }

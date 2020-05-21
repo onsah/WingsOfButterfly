@@ -67,7 +67,7 @@ export class WelcomePageComponent implements OnInit {
               this.showMessage('The password is not valid');
               break;
           default:
-              this.showMessage('Unkown login error occured!');
+              this.showMessage('Unknown login error occurred!');
               break;
         }
     }

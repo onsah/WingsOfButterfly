@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { AccountService } from 'src/app/services/account.service';
 import { Router } from '@angular/router';
-import { User } from 'src/app/models/user';
+import {User, UserType} from 'src/app/models/user';
 import { RegisterError } from 'src/app/interfaces/IAccountService';
 
 @Component({
@@ -39,8 +39,8 @@ export class RegisterPageComponent{
 
     // TODO: uncomment when AccountService.registerDeveloper is implemented
 
-    const result = await this.accService.registerDeveloper(email, password, username, null, null, null, null, null);
-    
+    const result = await this.accService.registerDeveloper(email, password, username);
+
     switch (result.tag) {
       case 'value':
         this.router.navigate(['main']); // TODO

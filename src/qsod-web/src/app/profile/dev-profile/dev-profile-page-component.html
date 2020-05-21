@@ -6,8 +6,8 @@
 </div>
 <form>
   <div>
-  <mat-card>
-    <mat-card-title>Name: {{profile.name}}</mat-card-title>
+    <mat-card>
+    <mat-card-content>Name:{{profile.username}}</mat-card-content>
   </mat-card>
   </div>
   <div>
@@ -45,7 +45,7 @@
   <mat-divider></mat-divider>
 
   <div *ngIf="isDeveloper">
-    <button mat-raised-button type="submit">Edit Profile</button>
+    <button mat-raised-button type="submit" routerLink="/dev-profile-edit">Edit Profile</button>
 
   <mat-divider></mat-divider>
 

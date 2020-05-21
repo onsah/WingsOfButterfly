@@ -4,10 +4,10 @@
 <div fxFlexAlign="center">
   <img mat-card-image src="assets/placeholder.jpg" >
 </div>
-<form>
+<form [formGroup]="newProfileForm" (ngSubmit)="onSubmit(newProfileForm.value)">
   <div>
     <mat-form-field>
-      <input matInput placeholder="Name"required>
+      <input matInput placeholder="Name"required> {{ profile.username }}
     </mat-form-field>
   </div>
   <div>

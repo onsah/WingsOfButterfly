@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Profile} from '../../models/profile';
 import {AccountService} from '../../services/account.service';
+import {User} from '../../models/user';
 
 
 @Component({
@@ -12,13 +12,11 @@ import {AccountService} from '../../services/account.service';
 
 export class CompanyProfileEditPageComponent implements OnInit, OnDestroy{
 
-  profile: Profile;
+  profile: User;
 
   constructor( private route: ActivatedRoute,
                private accountService: AccountService
-  ){
-    this.profile = Profile.getDevDefault();
-  }
+  ){}
 
   ngOnInit(): void {
   }
