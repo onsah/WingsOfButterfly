@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Quiz } from 'src/app/models/quiz';
+import { Quiz, QuizType } from 'src/app/models/quiz';
 import { Question } from 'src/app/models/question';
 import { Tag } from 'src/app/models/types';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { QuizService } from 'src/app/services/quiz.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-quiz-create',
@@ -15,7 +16,7 @@ export class QuizCreateComponent implements OnInit {
   
   private isEditMode: boolean;
 
-  quiz: Quiz;
+  quiz: Quiz = new Quiz();
   questions: Question[] = [];
 
   private unselectedTagsStore: Tag[] = [];
@@ -37,10 +38,14 @@ export class QuizCreateComponent implements OnInit {
       console.log(`isEditMode: ${params.get('isEditMode')}`);
 
       this.isEditMode = JSON.parse(params.get('isEditMode'));
+
+      if (this.isEditMode) {
+        this.quiz = Quiz.getDefault();
+        this.quiz.questionIDs.forEach(_ => this.questions.push(Question.getDefault()));
+      }
     });
 
-    this.quiz = Quiz.getDefault();
-    this.quiz.questionIDs.forEach(_ => this.questions.push(Question.getDefault()));
+    
   }
 
   get unselectedTags(): Observable<Tag[]> {
@@ -76,5 +81,29 @@ export class QuizCreateComponent implements OnInit {
 
     this.unselectedTagsStore.push(tag);
     this._unselectedTags.next(this.unselectedTagsStore);
+  }
+
+  onAddNewQuestion() {
+    this.questions.push(new Question(0));
+
+    console.log(this.questions);
+  }
+
+  onRemoveQuestion(index: number) {
+    this.questions.splice(index, 1);
+  }
+
+  onCreateQuiz() {
+    console.log(this.quiz);
+    console.log(this.questions);
+  }
+
+  onSubmit(form: {}) {
+
+  }
+
+  // https://stackoverflow.com/questions/42322968/angular2-dynamic-input-field-lose-focus-when-input-changes
+  trackByFn(index: any, item: any) {
+    return index;
   }
 }

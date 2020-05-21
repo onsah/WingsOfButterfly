@@ -44,6 +44,8 @@ export class AdminMainPageComponent implements OnInit {
   ngOnInit(): void {
     // Automatically filters by tags when selected tag changes
     this.selectedTags.subscribe(_ => this.filter());
+
+    this.quizService.loadQuizzes();
   }
 
   selectTag(tag: Tag): boolean {

@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Question, Option } from 'src/app/models/question';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Helper } from 'src/app/utility/helper';
 
 @Component({
   selector: 'app-question-trial-dialog',
@@ -35,13 +36,13 @@ export class QuestionTrialDialogComponent implements OnInit {
       this.selectedOptions[3] = true;
     }
 
-    if (this.question.correctOption === Option.A) {
+    if (Helper.arrayToOption(this.question.correctOptions) === Option.A) {
       this.correctOptions[0] = true;
-    } else if (this.question.correctOption === Option.B) {
+    } else if (Helper.arrayToOption(this.question.correctOptions) === Option.B) {
       this.correctOptions[1] = true;
-    } else if (this.question.correctOption === Option.C) {
+    } else if (Helper.arrayToOption(this.question.correctOptions) === Option.C) {
       this.correctOptions[2] = true;
-    } else if (this.question.correctOption === Option.D) {
+    } else if (Helper.arrayToOption(this.question.correctOptions) === Option.D) {
       this.correctOptions[3] = true;
     }
   }

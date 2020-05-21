@@ -4,6 +4,7 @@ import { Trial } from 'src/app/models/trial';
 import { Question, Option } from 'src/app/models/question';
 import { MatDialog } from '@angular/material/dialog';
 import { QuestionTrialDialogComponent } from './question-trial-dialog/question-trial-dialog.component';
+import { Helper } from 'src/app/utility/helper';
 
 @Component({
   selector: 'app-quiz-trial-page',
@@ -38,10 +39,17 @@ export class QuizTrialPageComponent implements OnInit {
   }
 
   isQuestionCorrect(index: number) {
-    return this.questions[index].correctOption === this.trial.choosenOptions[index];
+    return this.questions[index].correctOptions === this.trial.choosenOptions[index];
   }
 
-  showQuestionDetails(question: Question, choosenOption: Option, index: number) {
-    this.dialog.open(QuestionTrialDialogComponent, { width: '600px', data: { question, choosenOption, questionIndex: index  } })
+  showQuestionDetails(question: Question, choosenOption: boolean[], index: number) {
+    this.dialog.open(QuestionTrialDialogComponent, { 
+      width: '600px', 
+      data: { 
+        question, 
+        choosenOption: Helper.arrayToOption(choosenOption), 
+        questionIndex: index  
+      } 
+    })
   }
 }

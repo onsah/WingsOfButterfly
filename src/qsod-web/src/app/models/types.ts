@@ -1,9 +1,9 @@
 export type QuestionID = number;
 
 export enum Difficulty {
-    Easy = "Easy",
-    Medium = "Medium",
-    Hard = "Hard",
+    Easy = 0,
+    Medium = 1,
+    Hard = 2,
 }
 
 /**

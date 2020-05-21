@@ -38,44 +38,31 @@
                     </mat-form-field>
                     <div matLine fxLayout="row">
                         <div fxLayout="column">
-                            <div fxLayout="row" *ngFor="let option of question.options; let j = index">
-                                <mat-checkbox [(ngModel)]="question.correctOptionAsArray[j]"></mat-checkbox>
-                                <input matInput [(ngModel)]="question.options[j]">
+                            <div fxLayout="row" *ngFor="let option of question.options; let j = index; trackBy:trackByFn" fxLayoutGap="0.5rem">
+                                <mat-checkbox [(ngModel)]="question.correctOptions[j]" required></mat-checkbox>
+                                <mat-form-field>
+                                    <mat-label>Option Description</mat-label>
+                                    <input matInput cdkTextareaAutosize [(ngModel)]="question.options[j]">
+                                </mat-form-field>
                             </div>
                         </div>
                         <div fxFlex="grow"></div>
                         <div fxLayout="column">
                             <div fxFlex="grow"></div>
-                            <button mat-raised-button class="remove-button" color="warn">Remove</button>
+                            <button mat-raised-button class="remove-button" color="warn" (click)="onRemoveQuestion(i)">Remove</button>
                         </div>
                     </div>
                 </mat-card-content>
             </mat-card>
-            
-            <!--
-            <div class="question-edit" fxLayout="column" fxFlex="grow">
-                <textarea class="question-description" [(ngModel)]="question.description"></textarea>
-                <div fxLayout="row" fxFlex="grow">
-                    <div fxLayout="column">
-                        <div fxLayout="row" *ngFor="let option of question.options; let j = index">
-                            <mat-checkbox [(ngModel)]="question.correctOptionAsArray[j]"></mat-checkbox>
-                            <input matInput [(ngModel)]="question.options[j]">
-                        </div>
-                    </div>
-                    <div fxFlex="grow"></div>
-                    <button mat-raised-button color="warn">Remove</button>
-                </div>
-            </div>
-            -->
         </mat-list-item>
         <mat-list-item>
-            <button mat-raised-button color="accent" class="add-question-button">
+            <button mat-raised-button color="accent" class="add-question-button" (click)="onAddNewQuestion()">
                 Add new Question
             </button>
         </mat-list-item>
 
         <mat-list-item>
-            <button mat-raised-button color="primary" class="submit-question-button">
+            <button mat-raised-button color="primary" class="submit-question-button" (click)="onCreateQuiz()">
                 Submit Changes
             </button>
         </mat-list-item>

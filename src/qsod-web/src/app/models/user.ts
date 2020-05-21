@@ -2,7 +2,7 @@ export class User {
     email: string;
     password: string;
     username: string = null;
-    type: UserType = UserType.Developer;
+    role: UserType = UserType.Developer;
     description: string = null;
     cv: ICV = null;
     contactInfo: string = null;

@@ -57,7 +57,7 @@ describe('AccountServiceService', () => {
       
       expect(user.email === "onur.sahin@ug.bilkent.edu.tr");
       expect(user.password === "nice try bro");
-      expect(user.type === UserType.Developer);
+      expect(user.role === UserType.Developer);
     } else {
       fail();
     }
