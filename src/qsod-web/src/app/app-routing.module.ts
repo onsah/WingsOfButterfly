@@ -11,6 +11,7 @@ import { TrialsComponent } from './quiz/trials/trials.component';
 import { LoginDirectService } from './services/login-direct.service';
 import { QuizCreateComponent } from './quiz/quiz-create/quiz-create.component';
 import { QuizTrialPageComponent } from './quiz/quiz-trial-page/quiz-trial-page.component';
+import {DevProfilePageComponent} from './profile/dev-profile-page-component';
 
 const routes: Routes = [
   {
@@ -55,6 +56,10 @@ const routes: Routes = [
   {
     path: 'quiz-trial',
     component: QuizTrialPageComponent,
+  },
+  {
+    path: 'dev-profile-page',
+    component: DevProfilePageComponent,
   }
 ];
 

@@ -8,9 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatListModule } from '@angular/material/list'; 
-import { MatCheckboxModule } from '@angular/material/checkbox'; 
-import { MatProgressBarModule } from '@angular/material/progress-bar'; 
+import { MatListModule } from '@angular/material/list';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -39,6 +39,7 @@ import { QuizCreateComponent } from './quiz/quiz-create/quiz-create.component';
 import { QuizTrialPageComponent } from './quiz/quiz-trial-page/quiz-trial-page.component';
 import { MinuteSecondsPipe } from './utility/date-pipe.pipe';
 import { QuestionTrialDialogComponent } from './quiz/quiz-trial-page/question-trial-dialog/question-trial-dialog.component';
+import { DevProfilePageComponent } from './profile/dev-profile-page-component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { QuestionTrialDialogComponent } from './quiz/quiz-trial-page/question-tr
     QuizTrialPageComponent,
     MinuteSecondsPipe,
     QuestionTrialDialogComponent,
+    DevProfilePageComponent,
   ],
   imports: [
     BrowserModule,

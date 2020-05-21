@@ -1,0 +1,19 @@
+.profile-body {
+  text-align: center;
+}
+
+.main-title {
+  font-size: 2.4rem;
+  margin: 20px auto;
+  width: 20%;
+  min-width: 20rem;
+}
+
+.profile-image{
+  border-radius:50%;
+  width:250px;
+  height: auto;
+  margin: auto 50%;
+}
+
+
