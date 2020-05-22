@@ -26,6 +26,7 @@ export class RegisterPageComponent{
       email: '',
       password: '',
       username: '',
+      type: '',
     });
   }
 
