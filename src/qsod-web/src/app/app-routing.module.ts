@@ -13,6 +13,8 @@ import { QuizCreateComponent } from './quiz/quiz-create/quiz-create.component';
 import { QuizTrialPageComponent } from './quiz/quiz-trial-page/quiz-trial-page.component';
 import { DevProfilePageComponent } from './profile/dev-profile/dev-profile-page-component';
 import {DevProfileEditPageComponent} from './profile/dev-profile-edit/dev-profile-edit-page-component';
+import {ProfilePageComponent} from './profile/profile-page/profile-page.component';
+import {CompanyProfileEditPageComponent} from './profile/company-profile-edit/company-profile-edit-page.component';
 
 const routes: Routes = [
   {
@@ -65,6 +67,14 @@ const routes: Routes = [
   {
     path: 'dev-profile-edit',
     component: DevProfileEditPageComponent,
+  },
+  {
+    path: 'profile-page',
+    component: ProfilePageComponent,
+  },
+  {
+    path: 'company-profile-edit',
+    component: CompanyProfileEditPageComponent
   }
 ];
 

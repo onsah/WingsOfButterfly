@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { AccountService } from 'src/app/services/account.service';
 import { Router } from '@angular/router';
-import {User, UserType} from 'src/app/models/user';
+import { UserType} from 'src/app/models/user';
 import { RegisterError } from 'src/app/interfaces/IAccountService';
 
 @Component({
@@ -26,6 +26,7 @@ export class RegisterPageComponent{
       email: '',
       password: '',
       username: '',
+      type: '',
     });
   }
 
@@ -33,13 +34,13 @@ export class RegisterPageComponent{
     this.snackBar.open(message, 'close', { duration: 2000 });
   }
 
-  async onSubmit({ email, password, username }: { email: string, password: string, username: string }) {
+  async onSubmit({ email, password, username, type }: { email: string, password: string, username: string, type: string }) {
 
     // this.showMessage('Not implemented yet');
 
     // TODO: uncomment when AccountService.registerDeveloper is implemented
 
-    const result = await this.accService.registerDeveloper(email, password, username);
+    const result = await this.accService.register(email, password, username, type);
 
     switch (result.tag) {
       case 'value':
@@ -48,22 +49,22 @@ export class RegisterPageComponent{
       case 'error':
         switch (result.error) {
           case RegisterError.EmailOrPasswordEmpty:
-              this.showMessage("Email or password is empty");
-            break;
+              this.showMessage('Email or password is empty');
+              break;
           case RegisterError.EmailAlreadyTaken:
-              this.showMessage("This email is already used for another account");
-            break;
+              this.showMessage('This email is already used for another account');
+              break;
           case RegisterError.UsernameNotValid:
-              this.showMessage("The username is not valid");
-            break;
+              this.showMessage('The username is not valid');
+              break;
           case RegisterError.PasswordNotValid:
-              this.showMessage("The password is not valid");
-            break;
+              this.showMessage('The password is not valid');
+              break;
           case RegisterError.PasswordsDoNotMatch:
-              this.showMessage("Passwords do not match");
+              this.showMessage('Passwords do not match');
           default:
-              this.showMessage("Unkown register error occured!");
-            break;
+              this.showMessage('Unkown register error occured!');
+              break;
         }
     }
   }

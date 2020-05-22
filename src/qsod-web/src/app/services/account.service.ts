@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import { User, UserType } from '../models/user';
-import { IAccountService, LoginResult, LoginError, RegisterResult, RegisterError } from '../interfaces/IAccountService';
-import { ApiService } from './api.service';
-import { HttpHeaders } from '@angular/common/http';
-import { QuizService } from './quiz.service';
+import {User, UserType} from '../models/user';
+import {LoginError, LoginResult, RegisterError, RegisterResult} from '../interfaces/IAccountService';
+import {ApiService} from './api.service';
+import {QuizService} from './quiz.service';
 
 @Injectable({
   providedIn: 'root'
@@ -38,19 +37,19 @@ export class AccountService {
     return { tag: "value", value: this.user }; */
 
     try {
-      let response = await this.apiClient.login(email, password);
-      
+      const response = await this.apiClient.login(email, password);
+
       if (response !== null) {
         this.user = response;
-        console.log("user: ", this.user);
+        console.log('user: ', this.user);
         await this.quizService.loadQuizzes(this.user.id);
-        
-        return { tag:"value", value: this.user };
+
+        return { tag: 'value', value: this.user };
       } else {
-        return { tag: "error", error: LoginError.Unkown };
+        return { tag: 'error', error: LoginError.Unkown };
       }
     } catch (error) {
-        return { tag: "error", error: LoginError.Unkown };
+        return { tag: 'error', error: LoginError.Unkown };
     }
   }
 
@@ -66,10 +65,11 @@ export class AccountService {
     throw new Error('Method not implemented.');
   }
 
-  async registerDeveloper(
+  async register(
     email: string,
     password: string,
     username: string,
+    type: string,
     /*
     jobSituation: string,
     contactInfo: string,
@@ -78,7 +78,19 @@ export class AccountService {
     avatar?: Uint8Array
     */
   ): Promise<RegisterResult> {
-    const response = await this.apiClient.register(email, username, password, UserType.Developer);
+
+    let response;
+
+    if ( type === 'DEV' ){
+      response = await this.apiClient.register(email, username, password, UserType.Developer);
+    }
+    else if ( type === 'COM' ){
+      response = await this.apiClient.register(email, username, password, UserType.Company);
+    }
+    else{
+      response = await this.apiClient.register(email, username, password, UserType.Admin);
+    }
+
 
     if (response) {
       return { tag: 'value', value: true };

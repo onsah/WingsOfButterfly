@@ -2,9 +2,9 @@
 <h2>Edit Profile</h2>
 
 <div fxFlexAlign="center">
-  <img mat-card-image src="assets/placeholder.jpg" >
+  <img class="profile-img" mat-card-image src="assets/umbrella.jpg" >
 </div>
-<form>
+<form [formGroup]="newProfileForm" (ngSubmit)="onSubmit(newProfileForm.value)">
   <div>
     <mat-form-field>
       <input matInput placeholder="Name"required>
