@@ -7,7 +7,7 @@
       Quizzes
     </a>
 
-    <a mat-button *ngIf=" isLoggedIn() && !isTrialsPage()" routerLink="/quiz-trials">
+    <a mat-button *ngIf=" isLoggedIn() && !isTrialsPage() && isDeveloper()" routerLink="/quiz-trials">
       My Trials
     </a>
 

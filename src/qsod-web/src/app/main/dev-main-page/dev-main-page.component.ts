@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data-service.service';
 import { QuizDetailsComponent } from 'src/app/quiz/quiz-details/quiz-details.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AccountService } from 'src/app/services/account.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dev-main-page',
@@ -28,6 +30,8 @@ export class DevMainPageComponent implements OnInit {
     private router: Router,
     private dataService: DataService,
     private dialog: MatDialog,
+    private accountService: AccountService,
+    private snackBar: MatSnackBar,
   ) { 
     quizService.tags.subscribe(tags => {
       console.log('tags: ', tags);
@@ -89,10 +93,23 @@ export class DevMainPageComponent implements OnInit {
   addQuiz = () => { this.quizService.addQuiz(Quiz.getDefault()); }
 
   onStartQuiz(quiz: Quiz) {    
-    // To pass the quiz
-    this.dataService.quiz = quiz;
 
-    this.router.navigate(['quiz']);
+    this.quizService.getTrialsOfQuiz(quiz.id, this.accountService.getID())
+      .then(trials => {
+        if (trials[trials.length - 1].passed) {
+          this.snackBar.open('You already passed this quiz', 'close', { duration: 1000 });
+          return;
+        }
+        if (trials.length >= 3) {
+          this.snackBar.open('You already tried 3 times', 'close', { duration: 1000 });
+          return;
+        }
+
+        // To pass the quiz
+        this.dataService.quiz = quiz;
+
+        this.router.navigate(['quiz']);
+      });
   }
 
   onQuizDetails(quiz: Quiz) {
@@ -104,5 +121,15 @@ export class DevMainPageComponent implements OnInit {
     console.log(`tags: ${this.selectedTagsStore}`);
     // Filter quizzes both by tag and text
     this.quizService.receiveQuizzes({ tags: this.selectedTagsStore, searchText: this.searchText });
+  }
+
+  showEasiest() {
+    this.quizService.getEasiestQuiz()
+      .then(q => this.dialog.open(QuizDetailsComponent, { width: '250px', data: q }));
+  }
+
+  showHardest() {
+    this.quizService.getHardestQuiz()
+      .then(q => this.dialog.open(QuizDetailsComponent, { width: '250px', data: q }));
   }
 }

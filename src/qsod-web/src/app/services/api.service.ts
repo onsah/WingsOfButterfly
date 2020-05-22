@@ -60,9 +60,11 @@ export class ApiService {
   async getAllTags(): Promise<Tag[]> {
     let url = this.TAG_ENDPOINT + "/getAll";
 
-    let resp = await this.get<{ tagName: string }[]>(url, {});
+    let resp = await this.get<{ tagNamee: string }[]>(url, {});
 
-    return resp.map(t => t.tagName);
+    console.log('getAllTags response: ', resp);
+
+    return resp.map(t => t.tagNamee);
   }
 
   async getAllQuizzes(): Promise<Quiz[]> {
@@ -85,6 +87,22 @@ export class ApiService {
       q.time_limit,
       q.name,
     ));
+  }
+
+  async getTagsOfQuizzes(quizID: number): Promise<Tag[]> {
+    let url = this.TAG_ENDPOINT + "/getBy" + "/" + quizID;
+
+    let resp = await this.get<{ tag: string }[]>(url, {});
+
+    return resp.map(r => r.tag);
+  }
+
+  async getTrialsOfQuiz(quizID: number, devID: number) {
+    let url = this.TRIAL_ENDPOINT + "/" + quizID + "/" + devID;
+
+    let resp = await this.get<{ list: { passed: boolean } [] }>(url, {});
+
+    return resp.list;
   }
 
   async getQuestions(quizID: number): Promise<Question[]> {
@@ -156,7 +174,7 @@ export class ApiService {
     let body = {
       name: title,
       difficulty,
-      tags,
+      tags: tags.map(t => { return { tagNamee: t }; }),
       duration,
       curatedId: adminId,
       questionDtos: questions.map(q => {
@@ -190,7 +208,7 @@ export class ApiService {
       choosenOptions
     };
 
-    return await this.post(url, body, {});
+    return await this.post<{ passed: boolean, successRate: number}>(url, body, {});
   }
 
   async updateProfile(profile: any): Promise<User>{
@@ -212,6 +230,50 @@ export class ApiService {
       cv: profile.cv
     }
     return await this.put(url, body, {});
+  }
+
+  async getHardestQuiz(): Promise<Quiz[]> {
+    let url = this.QUIZ_ENDPOINT + "/hardest";
+
+    let resp = await this.get<{ 
+      id: number, 
+      name: string,
+      difficulty: Difficulty,
+      type: QuizType,
+      time_limit: number,
+    }[]>(url, {});  
+    
+    console.log('hardest quiz response: ', resp);
+
+    return resp.map(resp => new Quiz(
+      resp.id,
+      resp.difficulty,
+      resp.type,
+      resp.time_limit,
+      resp.name,
+    ));
+  }
+
+  async getEasiest(): Promise<Quiz[]> {
+    let url = this.QUIZ_ENDPOINT + "/easy";
+
+    let resp = await this.get<{ 
+      id: number, 
+      name: string,
+      difficulty: Difficulty,
+      type: QuizType,
+      time_limit: number,
+    }[]>(url, {});  
+    
+    console.log('easiest quiz response: ', resp);
+
+    return resp.map(resp => new Quiz(
+      resp.id,
+      resp.difficulty,
+      resp.type,
+      resp.time_limit,
+      resp.name,
+    ));
   }
 
   /**

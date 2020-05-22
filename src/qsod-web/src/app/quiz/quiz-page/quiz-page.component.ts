@@ -27,9 +27,7 @@ export class QuizPageComponent implements OnInit, OnDestroy {
   ];
 
   quiz: Quiz;
-  questions: Question[] = [
-    Question.getDefault(),
-  ];
+  questions: Question[] = [ ];
   selectedOptions: Option[];
   timeLeft: number;
   
@@ -86,6 +84,19 @@ export class QuizPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  onSkipQuestion() {
+    this.selectedOptions[this.currentTabIndex] = Option.Empty;
+    console.log(`skipping question ${this.currentTabIndex}`);
+
+    this.currentOptions = [false, false, false, false];
+
+    if (this.isLastPage()) {
+      this.finishQuiz();
+    } else {
+      this.nextTab();
+    }
+  }
+
   private get currentTabIndex() {
     return this.tabGroupRef.selectedIndex;
   }
@@ -105,7 +116,13 @@ export class QuizPageComponent implements OnInit, OnDestroy {
     // Navigate to report page
     console.log('selected options: ', this.selectedOptions);
 
-    this.quizService.submitTrial(this.quiz.id, this.accountService.getID(), this.selectedOptions);
+    this.quizService
+      .submitTrial(this.quiz.id, this.accountService.getID(), this.selectedOptions)
+      .then(result => {
+        console.log('quiz result: ', result);
+        this.dataService.passed = result.passed;
+        this.dataService.successRate = result.successRate;
+      });
 
     this.router.navigate(['quiz-report']);   
   }
@@ -115,9 +132,13 @@ export class QuizPageComponent implements OnInit, OnDestroy {
 
     this.interval = setInterval(() => {
       if (this.timeLeft > 0) {
-        this.timeLeft -= 10;
+        this.timeLeft -= 1;
       } else {
-        console.warn('TODO: fill remaining questions as empty');
+        let start = this.tabGroupRef.selectedIndex;
+
+        for (let i = start; i < this.questions.length; ++i) {
+          this.selectedOptions[i] = Option.Empty;
+        }
 
         this.finishQuiz();
       }

@@ -25,6 +25,9 @@
                         <div fxFlex="grow"></div>
                         <div fxLayout="row">
                             <div fxFlex="grow"></div>
+                            <button class="skip-button" mat-raised-button color="accent" (click)="onSkipQuestion()">
+                                Skip
+                            </button>
                             <button class="next-button" mat-raised-button color="primary"  (click)="onNextQuestion()">
                                 {{ questions.length === i + 1 ? 'Finish' : 'Next' }}
                             </button>

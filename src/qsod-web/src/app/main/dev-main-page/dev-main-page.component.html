@@ -24,6 +24,10 @@
             </mat-select>
         </mat-form-field>
     </div>
+    <div fxLayout="row">
+        <button mat-raised-button color="accent" (click)="showEasiest()"> Easiest Quiz </button>
+        <button mat-raised-button color="accent" (click)="showHardest()"> Hardest Quiz </button>
+    </div>
     <mat-list class="quiz-list" fxLayoutAlign="start center" fxLayout="column" fxLayoutGap="3.5rem">
         <mat-list-item class="quiz-list-item" *ngFor="let quiz of quizService.quizzes | async">
             <mat-card fxFlex="grow">

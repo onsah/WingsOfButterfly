@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Quiz, QuizType } from 'src/app/models/quiz';
 import { Question } from 'src/app/models/question';
 import { Tag, Difficulty } from 'src/app/models/types';
@@ -31,6 +31,7 @@ export class QuizCreateComponent implements OnInit {
     private quizService: QuizService,
     private snackBar: MatSnackBar,
     private accountService: AccountService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -105,6 +106,11 @@ export class QuizCreateComponent implements OnInit {
       this.showError('title is empty');
       return;
     }
+
+    if (this.questions.length <= 0) {
+      this.showError('at least one question!')
+      return;
+    }
     
     for (let question of this.questions) {
       if (question.description === '') {
@@ -133,10 +139,12 @@ export class QuizCreateComponent implements OnInit {
       this.quiz.difficulty,
       this.questions
     );
+
+    this.router.navigate(['/main']);
   }
 
   private showError(msg: string) {
-    this.snackBar.open(msg);
+    this.snackBar.open(msg, 'close', { duration: 2000 });
   }
 
   // https://stackoverflow.com/questions/42322968/angular2-dynamic-input-field-lose-focus-when-input-changes

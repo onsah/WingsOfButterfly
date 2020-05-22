@@ -7,6 +7,7 @@ import { Question, Option } from '../models/question';
 import { ApiService } from './api.service';
 import { Trial } from '../models/trial';
 import { AccountService } from './account.service';
+import { async } from '@angular/core/testing';
 
 @Injectable({
   providedIn: 'root'
@@ -57,18 +58,23 @@ export class QuizService implements IQuizService {
     ];
     this._quizzesWithTrials.next(this.quizzesWithTrialsStore); */
 
-    console.warn('TODO: make async requests to the database for all quizzes and the quizzes with trials');
+    // console.warn('TODO: make async requests to the database for all quizzes and the quizzes with trials');
   }
 
   get quizzes() { return this._quizzes.asObservable(); }
   get quizzesWithTrials() { return this._quizzesWithTrials.asObservable(); }
   get tags() { return this._tags.asObservable(); }
 
-   updateQuizzes() {
+  updateQuizzes() {
     console.log('updating quizzess...');
 
     this.apiService.getAllQuizzes().then(quizzes => {
       console.log(quizzes);
+      // Fetch tags for each quiz
+      quizzes.forEach(async q => {
+        q.tags = await this.apiService.getTagsOfQuizzes(q.id);
+      });
+
       this.quizzesDataStore = quizzes;
       this._quizzes.next(this.quizzesDataStore);
     });
@@ -113,6 +119,15 @@ export class QuizService implements IQuizService {
     this._quizzesWithTrials.next(filtered);
   }
 
+  async getTrialsOfQuiz(quizID: number, devID: number) {
+    let resp = await this.apiService.getTrialsOfQuiz(quizID, devID);
+
+    return resp;
+  }
+
+  async getEasiestQuiz() { return (await this.apiService.getEasiest())[0]; }
+  async getHardestQuiz() { return (await this.apiService.getHardestQuiz())[0]; }
+
   /**
    * Takes the quizzes of a developer with trials filtered by tags
    * @param tags 
@@ -135,7 +150,7 @@ export class QuizService implements IQuizService {
     return await this.apiService.getQuestions(quiz.id);
   }
 
-  async submitTrial(quizID: number, devID: number, choosenOptions: Option[]) {
+  async submitTrial(quizID: number, devID: number, choosenOptions: Option[]): Promise<{ passed: boolean, successRate: number}> {
     return await this.apiService.createTrial(devID, quizID, choosenOptions);
   }
 
