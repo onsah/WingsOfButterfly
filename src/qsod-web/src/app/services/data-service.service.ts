@@ -12,6 +12,9 @@ export class DataService {
   private _questions: Question[];
   private _trial: Trial;
 
+  public successRate = -1;
+  public passed = false;
+
   get quiz() { return this._quiz; }
   set quiz(quiz: Quiz) {
     this._quiz = quiz;

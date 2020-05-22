@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from 'src/app/services/data-service.service';
 
 @Component({
   selector: 'app-quiz-report-page',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class QuizReportPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private dataService: DataService,
+  ) { }
 
   ngOnInit(): void {
   }
 
+  get successRate() { return this.dataService.successRate; }
+
+  get passed() { return this.dataService.passed; }
 }

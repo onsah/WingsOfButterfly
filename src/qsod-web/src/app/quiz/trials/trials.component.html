@@ -29,7 +29,7 @@
                 <mat-card-content>
                     <div matLine fxLayout="row">
                         <mat-label class="quiz-title">
-                            {{ qwt.quiz.title }}
+                            {{ qwt.quiz.title }} {{ didPassTheQuiz(qwt) }}
                         </mat-label>
                         <div class="tags" fxLayout="row" fxLayoutGap="0.5rem">
                             <button mat-flat-button color="accent" *ngFor="let tag of qwt.quiz.tags">

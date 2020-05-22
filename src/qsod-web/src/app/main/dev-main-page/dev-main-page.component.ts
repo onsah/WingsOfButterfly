@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data-service.service';
 import { QuizDetailsComponent } from 'src/app/quiz/quiz-details/quiz-details.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AccountService } from 'src/app/services/account.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Helper } from 'src/app/utility/helper';
 
 @Component({
   selector: 'app-dev-main-page',
@@ -22,12 +25,16 @@ export class DevMainPageComponent implements OnInit {
   private _unselectedTags: BehaviorSubject<Tag[]> = new BehaviorSubject(this.unselectedTagsStore);
   private _selectedTags: BehaviorSubject<Tag[]> = new BehaviorSubject(this.selectedTagsStore);
   public searchText: string = '';
+  public minDuration: string = '';
+  public maxDuration: string = '';
   
   constructor(
     public quizService: QuizService,
     private router: Router,
     private dataService: DataService,
     private dialog: MatDialog,
+    private accountService: AccountService,
+    private snackBar: MatSnackBar,
   ) { 
     quizService.tags.subscribe(tags => {
       console.log('tags: ', tags);
@@ -89,10 +96,23 @@ export class DevMainPageComponent implements OnInit {
   addQuiz = () => { this.quizService.addQuiz(Quiz.getDefault()); }
 
   onStartQuiz(quiz: Quiz) {    
-    // To pass the quiz
-    this.dataService.quiz = quiz;
 
-    this.router.navigate(['quiz']);
+    this.quizService.getTrialsOfQuiz(quiz.id, this.accountService.getID())
+      .then(trials => {
+        if (trials[trials.length - 1].passed) {
+          this.snackBar.open('You already passed this quiz', 'close', { duration: 1000 });
+          return;
+        }
+        if (trials.length >= 3) {
+          this.snackBar.open('You already tried 3 times', 'close', { duration: 1000 });
+          return;
+        }
+
+        // To pass the quiz
+        this.dataService.quiz = quiz;
+
+        this.router.navigate(['quiz']);
+      });
   }
 
   onQuizDetails(quiz: Quiz) {
@@ -102,7 +122,46 @@ export class DevMainPageComponent implements OnInit {
   filter() {
     console.log(`search text: ${this.searchText}`);
     console.log(`tags: ${this.selectedTagsStore}`);
+
+    let interval = this.getInterval();
+
+    if (interval !== null) {
+      console.log(`filtering by duration ${interval.min}-${interval.max}`);
+      this.quizService.receiveQuizzes({ 
+        tags: this.selectedTagsStore, 
+        searchText: this.searchText, 
+        durationInterval: interval, 
+      });
+    } else {
+      this.quizService.receiveQuizzes({ 
+        tags: this.selectedTagsStore, 
+        searchText: this.searchText, 
+        durationInterval: null 
+      });
+    }
     // Filter quizzes both by tag and text
-    this.quizService.receiveQuizzes({ tags: this.selectedTagsStore, searchText: this.searchText });
+  }
+
+  getInterval(): { min: number, max: number } {
+    if (Helper.isInteger(this.minDuration) && Helper.isInteger(this.maxDuration)) {
+      let min = parseInt(this.minDuration);
+      let max = parseInt(this.maxDuration);
+
+      if (min <= max) {
+        return { min, max };
+      }
+    }
+    
+    return null;
+  }
+
+  showEasiest() {
+    this.quizService.getEasiestQuiz()
+      .then(q => this.dialog.open(QuizDetailsComponent, { width: '250px', data: q }));
+  }
+
+  showHardest() {
+    this.quizService.getHardestQuiz()
+      .then(q => this.dialog.open(QuizDetailsComponent, { width: '250px', data: q }));
   }
 }

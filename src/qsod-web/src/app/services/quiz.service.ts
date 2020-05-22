@@ -7,6 +7,7 @@ import { Question, Option } from '../models/question';
 import { ApiService } from './api.service';
 import { Trial } from '../models/trial';
 import { AccountService } from './account.service';
+import { async } from '@angular/core/testing';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,19 @@ export class QuizService implements IQuizService {
     this.updateQuizzes();
     this.updateTrials(id);
 
+    this.quizzes.subscribe(qs => {
+      qs.forEach(q => 
+        this.apiService.getTagsOfQuizzes(q.id)
+          .then(tags => q.tags = tags));
+    })
+
+    this.quizzesWithTrials.subscribe(qws => {
+      qws.forEach(qwt => {
+        this.apiService.getTagsOfQuizzes(qwt.quiz.id)
+          .then(tags => qwt.quiz.tags = tags);
+      });
+    });
+
     /* this.addQuiz(Quiz.withTags([
       'a', 'b'
     ]));
@@ -57,18 +71,23 @@ export class QuizService implements IQuizService {
     ];
     this._quizzesWithTrials.next(this.quizzesWithTrialsStore); */
 
-    console.warn('TODO: make async requests to the database for all quizzes and the quizzes with trials');
+    // console.warn('TODO: make async requests to the database for all quizzes and the quizzes with trials');
   }
 
   get quizzes() { return this._quizzes.asObservable(); }
   get quizzesWithTrials() { return this._quizzesWithTrials.asObservable(); }
   get tags() { return this._tags.asObservable(); }
 
-   updateQuizzes() {
+  updateQuizzes() {
     console.log('updating quizzess...');
 
     this.apiService.getAllQuizzes().then(quizzes => {
       console.log(quizzes);
+      // Fetch tags for each quiz
+      /* quizzes.forEach(async q => {
+        q.tags = await this.apiService.getTagsOfQuizzes(q.id);
+      }); */
+
       this.quizzesDataStore = quizzes;
       this._quizzes.next(this.quizzesDataStore);
     });
@@ -81,22 +100,52 @@ export class QuizService implements IQuizService {
       .then(trials => {
         this.quizzesWithTrialsStore = trials;
         // Add tags
-        for (let q of this.quizzesWithTrialsStore) {
-          // Request tags of the specific quiz
-        }
+        /* for (let q of this.quizzesWithTrialsStore) {
+          this.apiService.getTagsOfQuizzes(q.quiz.id)
+            .then(tags => q.quiz.tags = tags);
+        } */
         console.log('quizzes with trials: ', this.quizzesWithTrialsStore);
         this._quizzesWithTrials.next(this.quizzesWithTrialsStore);
       });
   }
 
-  receiveQuizzes(filter: { tags: Tag[], searchText: string } = { tags: [], searchText: '' }) {
+  receiveQuizzes(filter: { tags: Tag[], searchText: string, durationInterval: { min: number, max: number } } = { tags: [], searchText: '', durationInterval: null }) {
     console.log(`filter: ${JSON.stringify(filter)}`);
 
-    let filtered = this.quizzesDataStore
+    if (filter.durationInterval !== null) {
+      // For duration frontend filters the substring
+      this.apiService.filterAllQuizzesInterval(filter.durationInterval.min, filter.durationInterval.max)
+        .then(filteredQuizzess => {
+          let filtered = filteredQuizzess
+            .filter(q => filter.tags.every(tag => q.tags.includes(tag)))
+            .filter(q => q.title.toLowerCase().includes(filter.searchText));
+      
+          this._quizzes.next(filtered);
+        })
+    } else {
+      if (filter.searchText === '') {
+        this.apiService.getAllQuizzes()
+          .then(filteredQuizzes => {
+            let filtered = filteredQuizzes
+              .filter(q => filter.tags.every(tag => q.tags.includes(tag)));
+            this._quizzes.next(filtered);
+          });
+      } else {
+        this.apiService.filterAllQuizzes(filter.searchText)
+          .then(filteredQuizzes => {
+            let filtered = filteredQuizzes
+              .filter(q => filter.tags.every(tag => q.tags.includes(tag)));
+            this._quizzes.next(filtered);
+          });
+      }
+    }
+
+
+    /* let filtered = this.quizzesDataStore
       .filter(q => filter.tags.every(tag => q.tags.includes(tag)))
       .filter(q => q.title.toLowerCase().includes(filter.searchText));
 
-    this._quizzes.next(filtered);
+    this._quizzes.next(filtered); */
   }
 
   /**
@@ -112,6 +161,15 @@ export class QuizService implements IQuizService {
 
     this._quizzesWithTrials.next(filtered);
   }
+
+  async getTrialsOfQuiz(quizID: number, devID: number) {
+    let resp = await this.apiService.getTrialsOfQuiz(quizID, devID);
+
+    return resp;
+  }
+
+  async getEasiestQuiz() { return (await this.apiService.getEasiest())[0]; }
+  async getHardestQuiz() { return (await this.apiService.getHardestQuiz())[0]; }
 
   /**
    * Takes the quizzes of a developer with trials filtered by tags
@@ -131,11 +189,15 @@ export class QuizService implements IQuizService {
     return await this.apiService.createQuizByAdmin(adminId, title, tags, duration, difficulty, questions);
   }
 
+  async updateQuiz(quizID: number, adminId: number, title: string, tags: Tag[], duration: Duration, difficulty: Difficulty, questions: Question[]): Promise<boolean> {
+    return await this.apiService.updateQuizByAdmin(quizID, adminId, title, tags, duration, difficulty, questions);
+  }
+
   async getQuestions(quiz: Quiz): Promise<Question[]> {
     return await this.apiService.getQuestions(quiz.id);
   }
 
-  async submitTrial(quizID: number, devID: number, choosenOptions: Option[]) {
+  async submitTrial(quizID: number, devID: number, choosenOptions: Option[]): Promise<{ passed: boolean, successRate: number}> {
     return await this.apiService.createTrial(devID, quizID, choosenOptions);
   }
 

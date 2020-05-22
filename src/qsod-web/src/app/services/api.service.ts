@@ -60,9 +60,11 @@ export class ApiService {
   async getAllTags(): Promise<Tag[]> {
     let url = this.TAG_ENDPOINT + "/getAll";
 
-    let resp = await this.get<{ tagName: string }[]>(url, {});
+    let resp = await this.get<{ tagNamee: string }[]>(url, {});
 
-    return resp.map(t => t.tagName);
+    console.log('getAllTags response: ', resp);
+
+    return resp.map(t => t.tagNamee);
   }
 
   async getAllQuizzes(): Promise<Quiz[]> {
@@ -73,7 +75,7 @@ export class ApiService {
       name: string,
       difficulty: Difficulty,
       type: QuizType,
-      time_limit: number,
+      timeLimit: number,
     } []>(url, {});
 
     console.log(resp);
@@ -82,9 +84,69 @@ export class ApiService {
       q.id,
       q.difficulty,
       q.type,
+      q.timeLimit,
+      q.name,
+    ));
+  }
+
+  async filterAllQuizzes(substring: string): Promise<Quiz[]> {
+    let url = this.QUIZ_ENDPOINT + "/specQuiz" + "/" + substring;
+
+    let resp = await this.get<{ 
+      id: number, 
+      name: string,
+      difficulty: Difficulty,
+      type: QuizType,
+      time_limit: number,
+    } []>(url, {});
+
+    console.log('filtered by substring ' + substring + ": ", resp);
+
+    return resp.map(q => new Quiz(
+      q.id,
+      q.difficulty,
+      q.type,
       q.time_limit,
       q.name,
     ));
+  }
+
+  async filterAllQuizzesInterval(min: number, max: number): Promise<Quiz[]> {
+    let url = this.QUIZ_ENDPOINT + "/time" + "/" + min + "/" + max;
+
+    let resp = await this.get<{ 
+      id: number, 
+      name: string,
+      difficulty: Difficulty,
+      type: QuizType,
+      time_limit: number,
+    } []>(url, {});
+    
+    console.log('filtered by duration ' + min + "to" + max + ": ", resp);
+
+    return resp.map(q => new Quiz(
+      q.id,
+      q.difficulty,
+      q.type,
+      q.time_limit,
+      q.name,
+    ));
+  }
+
+  async getTagsOfQuizzes(quizID: number): Promise<Tag[]> {
+    let url = this.TAG_ENDPOINT + "/getBy" + "/" + quizID;
+
+    let resp = await this.get<{ tag: string }[]>(url, {});
+
+    return resp.map(r => r.tag);
+  }
+
+  async getTrialsOfQuiz(quizID: number, devID: number) {
+    let url = this.TRIAL_ENDPOINT + "/" + quizID + "/" + devID;
+
+    let resp = await this.get<{ list: { passed: boolean } [] }>(url, {});
+
+    return resp.list;
   }
 
   async getQuestions(quizID: number): Promise<Question[]> {
@@ -156,7 +218,7 @@ export class ApiService {
     let body = {
       name: title,
       difficulty,
-      tags,
+      tags: tags.map(t => { return { tagNamee: t }; }),
       duration,
       curatedId: adminId,
       questionDtos: questions.map(q => {
@@ -181,6 +243,37 @@ export class ApiService {
     return true;
   }
 
+  async updateQuizByAdmin(quizID: number, adminId: number, title: string, tags: Tag[], duration: Duration, difficulty: Difficulty, questions: Question[]) {
+    let url = this.QUIZ_ENDPOINT + "/" + quizID;
+
+    let body = {
+      name: title,
+      difficulty,
+      tags: tags.map(t => { return { tagNamee: t }; }),
+      duration,
+      curatedId: adminId,
+      questionDtos: questions.map(q => {
+        return {
+          description: q.description,
+          difficulty: q.difficulty,
+          correct_option: Helper.arrayToOption(q.correctOptions),
+          optionA: q.options[0],
+          optionB: q.options[1],
+          optionC: q.options[2],
+          optionD: q.options[3],
+        };
+      }),
+    };
+
+    console.log('body: ', body);
+
+    let resp = await this.put(url, body, {});
+
+    console.log('response: ', resp);
+
+    return true;
+  }
+
   async createTrial(devId: number, quizId: number, choosenOptions: Option[]) {
     let url = this.TRIAL_ENDPOINT;
 
@@ -190,7 +283,7 @@ export class ApiService {
       choosenOptions
     };
 
-    return await this.post(url, body, {});
+    return await this.post<{ passed: boolean, successRate: number}>(url, body, {});
   }
 
   async updateProfile(profile: any): Promise<User>{
@@ -212,6 +305,50 @@ export class ApiService {
       cv: profile.cv
     }
     return await this.put(url, body, {});
+  }
+
+  async getHardestQuiz(): Promise<Quiz[]> {
+    let url = this.QUIZ_ENDPOINT + "/hardest";
+
+    let resp = await this.get<{ 
+      id: number, 
+      name: string,
+      difficulty: Difficulty,
+      type: QuizType,
+      time_limit: number,
+    }[]>(url, {});  
+    
+    console.log('hardest quiz response: ', resp);
+
+    return resp.map(resp => new Quiz(
+      resp.id,
+      resp.difficulty,
+      resp.type,
+      resp.time_limit,
+      resp.name,
+    ));
+  }
+
+  async getEasiest(): Promise<Quiz[]> {
+    let url = this.QUIZ_ENDPOINT + "/easy";
+
+    let resp = await this.get<{ 
+      id: number, 
+      name: string,
+      difficulty: Difficulty,
+      type: QuizType,
+      time_limit: number,
+    }[]>(url, {});  
+    
+    console.log('easiest quiz response: ', resp);
+
+    return resp.map(resp => new Quiz(
+      resp.id,
+      resp.difficulty,
+      resp.type,
+      resp.time_limit,
+      resp.name,
+    ));
   }
 
   /**

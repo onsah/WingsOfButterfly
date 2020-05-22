@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data-service.service';
 import { QuizDetailsComponent } from 'src/app/quiz/quiz-details/quiz-details.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-admin-main-page',
@@ -28,8 +29,10 @@ export class AdminMainPageComponent implements OnInit {
     private router: Router,
     private dataService: DataService,
     private dialog: MatDialog,
+    private accountService: AccountService,
   ) { 
     quizService.tags.subscribe(tags => {
+      console.log('tags: ', tags);
       this.unselectedTagsStore = tags
       this._unselectedTags.next(this.unselectedTagsStore);
     });
@@ -47,7 +50,7 @@ export class AdminMainPageComponent implements OnInit {
     // Automatically filters by tags when selected tag changes
     this.selectedTags.subscribe(_ => this.filter());
 
-    // this.quizService.loadQuizzes();
+    this.quizService.loadQuizzes(this.accountService.getID());
   }
 
   selectTag(tag: Tag): boolean {
@@ -97,6 +100,6 @@ export class AdminMainPageComponent implements OnInit {
     console.log(`search text: ${this.searchText}`);
     console.log(`tags: ${this.selectedTagsStore}`);
     // Filter quizzes both by tag and text
-    this.quizService.receiveQuizzes({ tags: this.selectedTagsStore, searchText: this.searchText });
+    this.quizService.receiveQuizzes({ tags: this.selectedTagsStore, searchText: this.searchText, durationInterval: null });
   }
 }

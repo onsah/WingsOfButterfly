@@ -24,6 +24,20 @@
             </mat-select>
         </mat-form-field>
     </div>
+    <div fxLayout="row">
+        <button mat-raised-button color="accent" (click)="showEasiest()"> Easiest Quiz </button>
+        <button mat-raised-button color="accent" (click)="showHardest()"> Hardest Quiz </button>
+        <div fxFlex="grow"></div>
+        <mat-form-field>
+            <mat-label>Min duration</mat-label>
+            <input matInput [(ngModel)]="minDuration" (input)='filter()'>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Max duration</mat-label>
+            <input matInput [(ngModel)]="maxDuration" (input)='filter()'>
+        </mat-form-field>
+    </div>
     <mat-list class="quiz-list" fxLayoutAlign="start center" fxLayout="column" fxLayoutGap="3.5rem">
         <mat-list-item class="quiz-list-item" *ngFor="let quiz of quizService.quizzes | async">
             <mat-card fxFlex="grow">
