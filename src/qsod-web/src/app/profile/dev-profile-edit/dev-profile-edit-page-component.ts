@@ -38,7 +38,6 @@ export class DevProfileEditPageComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.profile = this.accountService.getUser();
-    console.log('user: ', this.profile);
   }
 
   ngOnDestroy(): void {
@@ -74,7 +73,7 @@ export class DevProfileEditPageComponent implements OnInit, OnDestroy{
       country: country,
     };
 
-    const result = await this.accountService.updateProfile(newProfile);
+    this.profile = await this.accountService.updateProfile(newProfile);
   }
 
 

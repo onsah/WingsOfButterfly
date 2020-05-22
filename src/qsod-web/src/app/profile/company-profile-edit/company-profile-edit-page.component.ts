@@ -37,6 +37,7 @@ export class CompanyProfileEditPageComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
+    this.profile = this.accountService.getUser();
   }
 
   ngOnDestroy(): void {

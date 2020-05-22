@@ -1,38 +1,36 @@
 <body class="profile-body">
 <h2>Edit Profile</h2>
 
-<div class="profile-img">
-  <img mat-card-image src="assets/placeholder.jpg" >
-</div>
+
 <form [formGroup]="newProfileForm" (ngSubmit)="onSubmit(newProfileForm.value)">
-  <div>
+  <div class="card">
     <mat-form-field>
-      <input matInput placeholder="Name"required> {{ profile.username }}
+      Name: {{ profile.username }} <input matInput formControlName="name">
     </mat-form-field>
   </div>
   <div>
     <mat-form-field>
-      <input matInput placeholder="Email address" required>
+      Email: {{ profile.email }} <input matInput formControlName="email" >
     </mat-form-field>
   </div>
   <div>
     <mat-form-field>
-      <input matInput placeholder="CV" type="text" required>
+      CV: {{ profile.cv }} <input matInput formControlName="cv" type="text">
     </mat-form-field>
   </div>
   <div>
     <mat-form-field>
-      <input matInput placeholder="Phone" type="text" required>
+      Phone: {{ profile.phone }} <input matInput formControlName="phone">
     </mat-form-field>
   </div>
   <div>
     <mat-form-field>
-      <input matInput placeholder="Nationality">
+      Nationality: {{ profile.nationality }} <input matInput formControlName="nationality">
     </mat-form-field>
   </div>
   <div>
     <mat-form-field>
-      <input matInput placeholder="Residency" >
+      Residency: {{ profile.residency }} <input matInput formControlName="residency" >
     </mat-form-field>
   </div>
 

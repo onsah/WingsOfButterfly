@@ -107,8 +107,8 @@ export class AccountService {
     throw new Error('Method not implemented.');
   }
 
-  async updateProfile(newProfile: any) {
-    newProfile = await this.apiClient.updateProfile(newProfile);
+  async updateProfile(newProfile: any): Promise<User> {
+    return await this.apiClient.updateProfile(newProfile);
   }
 
   deleteAccount(): Promise<boolean> {

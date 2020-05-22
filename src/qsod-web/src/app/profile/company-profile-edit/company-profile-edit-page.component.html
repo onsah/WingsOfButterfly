@@ -7,32 +7,32 @@
 <form [formGroup]="newProfileForm" (ngSubmit)="onSubmit(newProfileForm.value)">
   <div>
     <mat-form-field>
-      <input matInput placeholder="Name"required>
+      Name: {{profile.username}} <input matInput formControl="name">
     </mat-form-field>
   </div>
   <div>
     <mat-form-field>
-      <input matInput placeholder="Email address" required>
+      Email: {{profile.email}} <input matInput formControl="email">
     </mat-form-field>
   </div>
   <div>
     <mat-form-field>
-      <input matInput placeholder="Country" type="text" required>
+      Country: {{profile.country}} <input matInput formControl="country">
     </mat-form-field>
   </div>
   <div>
     <mat-form-field>
-      <input matInput placeholder="Phone" type="text" required>
+      Phone: {{profile.phone}} <input matInput formControl="phone">
     </mat-form-field>
   </div>
   <div>
     <mat-form-field>
-      <input matInput placeholder="Origin">
+      Origin: {{profile.origin}} <input matInput formControl="origin">
     </mat-form-field>
   </div>
   <div>
     <mat-form-field>
-      <input matInput placeholder="Founded" >
+      Founded: {{profile.founded}} <input matInput formControl="founded" >
     </mat-form-field>
   </div>
 
