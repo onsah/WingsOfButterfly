@@ -35,8 +35,8 @@
       <mat-card-title>Founded: {{profile.founded}}</mat-card-title>
     </mat-card>
   </div>
-  <div>
-    <button mat-raised-button type="submit" [routerLink]='["/dev-profile-edit"]'>Edit Profile</button>
+  <div *ngIf="isCompany">
+    <button mat-raised-button type="submit" [routerLink]='["/company-profile-edit"]'>Edit Profile</button>
   </div>
 
 </form>
