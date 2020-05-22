@@ -100,6 +100,6 @@ export class AdminMainPageComponent implements OnInit {
     console.log(`search text: ${this.searchText}`);
     console.log(`tags: ${this.selectedTagsStore}`);
     // Filter quizzes both by tag and text
-    this.quizService.receiveQuizzes({ tags: this.selectedTagsStore, searchText: this.searchText });
+    this.quizService.receiveQuizzes({ tags: this.selectedTagsStore, searchText: this.searchText, durationInterval: null });
   }
 }

@@ -91,6 +91,13 @@ export class TrialsComponent implements OnInit {
     this.dialog.open(QuizDetailsComponent, { width: '250px', data: quiz });
   }
 
+  didPassTheQuiz({ quiz, trials }: { quiz: Quiz, trials: Trial[] }): string {
+    let passed = trials.map(t => t.passed).reduce((prev, curr) => prev || curr);
+
+    return passed ?
+      '(Passed)' : '(Failed)';
+  }
+
   onTrialClick(quiz: Quiz, trial: Trial) {
     console.warn('pass the trial and the quiz data to the dataService');
 

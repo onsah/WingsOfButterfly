@@ -8,6 +8,7 @@ import { QuizService } from 'src/app/services/quiz.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AccountService } from 'src/app/services/account.service';
+import { DataService } from 'src/app/services/data-service.service';
 
 @Component({
   selector: 'app-quiz-create',
@@ -32,6 +33,7 @@ export class QuizCreateComponent implements OnInit {
     private snackBar: MatSnackBar,
     private accountService: AccountService,
     private router: Router,
+    private dataService: DataService,
   ) { }
 
   ngOnInit(): void {
@@ -45,8 +47,20 @@ export class QuizCreateComponent implements OnInit {
       this.isEditMode = JSON.parse(params.get('isEditMode'));
 
       if (this.isEditMode) {
-        this.quiz = Quiz.getDefault();
-        this.quiz.questionIDs.forEach(_ => this.questions.push(Question.getDefault()));
+        this.quiz = this.dataService.quiz;
+        
+        this.quiz.tags.forEach(tag => {
+          let i = this.unselectedTagsStore.findIndex(t => t === tag);
+          this.unselectedTagsStore.splice(i, 1);
+          this.selectedTagsStore.push(tag);
+        })
+        this._unselectedTags.next(this.unselectedTagsStore);
+        this._selectedTags.next(this.selectedTagsStore);
+
+        this.quizService.getQuestions(this.quiz)
+          .then(questions => 
+            this.questions = questions);
+        // this.quiz.questionIDs.forEach(_ => this.questions.push(Question.getDefault()));
       }
     });
 
@@ -98,49 +112,84 @@ export class QuizCreateComponent implements OnInit {
     this.questions.splice(index, 1);
   }
 
+  onSubmit() {
+    if (this.isEditMode) {
+      this.onEditQuiz();
+    } else {
+      this.onCreateQuiz();
+    }
+  }
+
+  onEditQuiz() {
+    if (this.checkValidity()) {
+      console.log('editing quiz: ', this.quiz);
+      console.log(this.questions);
+
+      let tags = this.selectedTagsStore;
+
+      this.quizService.updateQuiz(
+        this.quiz.id,
+        this.accountService.getID(),
+        this.quiz.title,
+        tags,
+        600,
+        this.quiz.difficulty,
+        this.questions
+      )
+
+      this.router.navigate(['/main']);
+    }
+  }
+
   onCreateQuiz() {
     console.log(this.quiz);
     console.log(this.questions);
 
+    if (this.checkValidity()) {
+      let tags = this.selectedTagsStore;
+  
+      this.quizService.createQuiz(
+        this.accountService.getID(),
+        this.quiz.title,
+        tags,
+        600,
+        this.quiz.difficulty,
+        this.questions
+      );
+  
+      this.router.navigate(['/main']);
+    }
+  }
+
+  private checkValidity(): boolean {
     if (this.quiz.title === '') {
       this.showError('title is empty');
-      return;
+      return false;
     }
 
     if (this.questions.length <= 0) {
       this.showError('at least one question!')
-      return;
+      return false;
     }
     
     for (let question of this.questions) {
       if (question.description === '') {
         this.showError('question description is empty');
-        return;
+        return false;
       }
       if (question.correctOptions === [false, false, false, false]) {
         this.showError('question must have a correct answer');
-        return;
+        return false;
       }
       for (let opt of question.options) {
         if (opt === '') {
           this.showError('question option can\'t be empty');
-          return;
+          return false;
         }
       }
     }
 
-    let tags = this.selectedTagsStore;
-
-    this.quizService.createQuiz(
-      this.accountService.getID(),
-      this.quiz.title,
-      tags,
-      600,
-      this.quiz.difficulty,
-      this.questions
-    );
-
-    this.router.navigate(['/main']);
+    return true;
   }
 
   private showError(msg: string) {

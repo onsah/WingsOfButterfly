@@ -75,10 +75,54 @@ export class ApiService {
       name: string,
       difficulty: Difficulty,
       type: QuizType,
-      time_limit: number,
+      timeLimit: number,
     } []>(url, {});
 
     console.log(resp);
+
+    return resp.map(q => new Quiz(
+      q.id,
+      q.difficulty,
+      q.type,
+      q.timeLimit,
+      q.name,
+    ));
+  }
+
+  async filterAllQuizzes(substring: string): Promise<Quiz[]> {
+    let url = this.QUIZ_ENDPOINT + "/specQuiz" + "/" + substring;
+
+    let resp = await this.get<{ 
+      id: number, 
+      name: string,
+      difficulty: Difficulty,
+      type: QuizType,
+      time_limit: number,
+    } []>(url, {});
+
+    console.log('filtered by substring ' + substring + ": ", resp);
+
+    return resp.map(q => new Quiz(
+      q.id,
+      q.difficulty,
+      q.type,
+      q.time_limit,
+      q.name,
+    ));
+  }
+
+  async filterAllQuizzesInterval(min: number, max: number): Promise<Quiz[]> {
+    let url = this.QUIZ_ENDPOINT + "/time" + "/" + min + "/" + max;
+
+    let resp = await this.get<{ 
+      id: number, 
+      name: string,
+      difficulty: Difficulty,
+      type: QuizType,
+      time_limit: number,
+    } []>(url, {});
+    
+    console.log('filtered by duration ' + min + "to" + max + ": ", resp);
 
     return resp.map(q => new Quiz(
       q.id,
@@ -193,6 +237,37 @@ export class ApiService {
     console.log('body: ', body);
 
     let resp = await this.post(url, body, {});
+
+    console.log('response: ', resp);
+
+    return true;
+  }
+
+  async updateQuizByAdmin(quizID: number, adminId: number, title: string, tags: Tag[], duration: Duration, difficulty: Difficulty, questions: Question[]) {
+    let url = this.QUIZ_ENDPOINT + "/" + quizID;
+
+    let body = {
+      name: title,
+      difficulty,
+      tags: tags.map(t => { return { tagNamee: t }; }),
+      duration,
+      curatedId: adminId,
+      questionDtos: questions.map(q => {
+        return {
+          description: q.description,
+          difficulty: q.difficulty,
+          correct_option: Helper.arrayToOption(q.correctOptions),
+          optionA: q.options[0],
+          optionB: q.options[1],
+          optionC: q.options[2],
+          optionD: q.options[3],
+        };
+      }),
+    };
+
+    console.log('body: ', body);
+
+    let resp = await this.put(url, body, {});
 
     console.log('response: ', resp);
 

@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Quiz } from 'src/app/models/quiz';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Difficulty } from 'src/app/models/types';
 
 @Component({
   selector: 'app-quiz-details',
@@ -19,5 +20,16 @@ export class QuizDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     
+  }
+
+  difficultyToString(diff: Difficulty) {
+    switch (diff) {
+      case Difficulty.Easy:
+        return "Easy";
+      case Difficulty.Medium:
+        return "Medium";
+      case Difficulty.Hard:
+        return "Hard";
+    }
   }
 }

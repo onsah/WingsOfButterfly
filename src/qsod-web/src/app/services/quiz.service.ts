@@ -36,6 +36,19 @@ export class QuizService implements IQuizService {
     this.updateQuizzes();
     this.updateTrials(id);
 
+    this.quizzes.subscribe(qs => {
+      qs.forEach(q => 
+        this.apiService.getTagsOfQuizzes(q.id)
+          .then(tags => q.tags = tags));
+    })
+
+    this.quizzesWithTrials.subscribe(qws => {
+      qws.forEach(qwt => {
+        this.apiService.getTagsOfQuizzes(qwt.quiz.id)
+          .then(tags => qwt.quiz.tags = tags);
+      });
+    });
+
     /* this.addQuiz(Quiz.withTags([
       'a', 'b'
     ]));
@@ -71,9 +84,9 @@ export class QuizService implements IQuizService {
     this.apiService.getAllQuizzes().then(quizzes => {
       console.log(quizzes);
       // Fetch tags for each quiz
-      quizzes.forEach(async q => {
+      /* quizzes.forEach(async q => {
         q.tags = await this.apiService.getTagsOfQuizzes(q.id);
-      });
+      }); */
 
       this.quizzesDataStore = quizzes;
       this._quizzes.next(this.quizzesDataStore);
@@ -87,22 +100,52 @@ export class QuizService implements IQuizService {
       .then(trials => {
         this.quizzesWithTrialsStore = trials;
         // Add tags
-        for (let q of this.quizzesWithTrialsStore) {
-          // Request tags of the specific quiz
-        }
+        /* for (let q of this.quizzesWithTrialsStore) {
+          this.apiService.getTagsOfQuizzes(q.quiz.id)
+            .then(tags => q.quiz.tags = tags);
+        } */
         console.log('quizzes with trials: ', this.quizzesWithTrialsStore);
         this._quizzesWithTrials.next(this.quizzesWithTrialsStore);
       });
   }
 
-  receiveQuizzes(filter: { tags: Tag[], searchText: string } = { tags: [], searchText: '' }) {
+  receiveQuizzes(filter: { tags: Tag[], searchText: string, durationInterval: { min: number, max: number } } = { tags: [], searchText: '', durationInterval: null }) {
     console.log(`filter: ${JSON.stringify(filter)}`);
 
-    let filtered = this.quizzesDataStore
+    if (filter.durationInterval !== null) {
+      // For duration frontend filters the substring
+      this.apiService.filterAllQuizzesInterval(filter.durationInterval.min, filter.durationInterval.max)
+        .then(filteredQuizzess => {
+          let filtered = filteredQuizzess
+            .filter(q => filter.tags.every(tag => q.tags.includes(tag)))
+            .filter(q => q.title.toLowerCase().includes(filter.searchText));
+      
+          this._quizzes.next(filtered);
+        })
+    } else {
+      if (filter.searchText === '') {
+        this.apiService.getAllQuizzes()
+          .then(filteredQuizzes => {
+            let filtered = filteredQuizzes
+              .filter(q => filter.tags.every(tag => q.tags.includes(tag)));
+            this._quizzes.next(filtered);
+          });
+      } else {
+        this.apiService.filterAllQuizzes(filter.searchText)
+          .then(filteredQuizzes => {
+            let filtered = filteredQuizzes
+              .filter(q => filter.tags.every(tag => q.tags.includes(tag)));
+            this._quizzes.next(filtered);
+          });
+      }
+    }
+
+
+    /* let filtered = this.quizzesDataStore
       .filter(q => filter.tags.every(tag => q.tags.includes(tag)))
       .filter(q => q.title.toLowerCase().includes(filter.searchText));
 
-    this._quizzes.next(filtered);
+    this._quizzes.next(filtered); */
   }
 
   /**
@@ -144,6 +187,10 @@ export class QuizService implements IQuizService {
 
   async createQuiz(adminId: number, title: string, tags: Tag[], duration: Duration, difficulty: Difficulty, questions: Question[]): Promise<boolean> {
     return await this.apiService.createQuizByAdmin(adminId, title, tags, duration, difficulty, questions);
+  }
+
+  async updateQuiz(quizID: number, adminId: number, title: string, tags: Tag[], duration: Duration, difficulty: Difficulty, questions: Question[]): Promise<boolean> {
+    return await this.apiService.updateQuizByAdmin(quizID, adminId, title, tags, duration, difficulty, questions);
   }
 
   async getQuestions(quiz: Quiz): Promise<Question[]> {

@@ -2,6 +2,10 @@ import { Option } from '../models/question';
 import { QuizType } from '../models/quiz';
 
 export class Helper {
+    static isInteger(value) {
+        return ((parseFloat(value) == parseInt(value)) && !isNaN(value));
+    }
+
     static optionsAsArray(option: Option): boolean[] {
         switch (option) {
             case Option.A:

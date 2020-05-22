@@ -9,6 +9,7 @@ import { QuizDetailsComponent } from 'src/app/quiz/quiz-details/quiz-details.com
 import { MatDialog } from '@angular/material/dialog';
 import { AccountService } from 'src/app/services/account.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Helper } from 'src/app/utility/helper';
 
 @Component({
   selector: 'app-dev-main-page',
@@ -24,6 +25,8 @@ export class DevMainPageComponent implements OnInit {
   private _unselectedTags: BehaviorSubject<Tag[]> = new BehaviorSubject(this.unselectedTagsStore);
   private _selectedTags: BehaviorSubject<Tag[]> = new BehaviorSubject(this.selectedTagsStore);
   public searchText: string = '';
+  public minDuration: string = '';
+  public maxDuration: string = '';
   
   constructor(
     public quizService: QuizService,
@@ -119,8 +122,37 @@ export class DevMainPageComponent implements OnInit {
   filter() {
     console.log(`search text: ${this.searchText}`);
     console.log(`tags: ${this.selectedTagsStore}`);
+
+    let interval = this.getInterval();
+
+    if (interval !== null) {
+      console.log(`filtering by duration ${interval.min}-${interval.max}`);
+      this.quizService.receiveQuizzes({ 
+        tags: this.selectedTagsStore, 
+        searchText: this.searchText, 
+        durationInterval: interval, 
+      });
+    } else {
+      this.quizService.receiveQuizzes({ 
+        tags: this.selectedTagsStore, 
+        searchText: this.searchText, 
+        durationInterval: null 
+      });
+    }
     // Filter quizzes both by tag and text
-    this.quizService.receiveQuizzes({ tags: this.selectedTagsStore, searchText: this.searchText });
+  }
+
+  getInterval(): { min: number, max: number } {
+    if (Helper.isInteger(this.minDuration) && Helper.isInteger(this.maxDuration)) {
+      let min = parseInt(this.minDuration);
+      let max = parseInt(this.maxDuration);
+
+      if (min <= max) {
+        return { min, max };
+      }
+    }
+    
+    return null;
   }
 
   showEasiest() {
